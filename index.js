@@ -10,7 +10,7 @@ function fetchSingleCity(city) {
     .then(renderWeather)
 }
 
-// fetchSingleCity('San Francisco')
+fetchSingleCity('San Francisco')
 
 // Render
 function renderWeather(city) {
@@ -50,6 +50,7 @@ function renderWeather(city) {
         let divForm = document.createElement('div')
 
         divForm.className = 'inputDiv'
+        commentButton.setAttribute('disabled', 'disabled')
 
         inputForm.append(commentInput, submitInput)
         divForm.append(inputForm)
@@ -66,9 +67,12 @@ function renderWeather(city) {
         let likeButton = document.createElement('button')
         let dislikeButton = document.createElement('button')
 
+        let divForm = document.querySelector('.inputDiv')
+
         liComment.textContent = e.target.comment.value
         likeButton.textContent = `Likes: ${likes}`
         dislikeButton.textContent = `Dislikes: ${dislikes}`
+        commentButton.removeAttribute('disabled', 'disabled')
 
         div.append(liComment, likeButton, dislikeButton)
 
@@ -79,6 +83,8 @@ function renderWeather(city) {
         dislikeButton.addEventListener('click', () => {
             dislikeButton.textContent = `Dislikes: ${dislikes++}`
         })
+
+        divForm.remove()
     })
 }
 
