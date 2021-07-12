@@ -8,20 +8,15 @@ function fetchSingleCity(city) {
     fetch(`https://goweather.herokuapp.com/weather/${city}`)
     .then(res => res.json())
     .then(renderWeather)
-
-    // .then(json => renderWeather())
 }
 
 fetchSingleCity('San Francisco')
 
-function fetchWeather() {
-    fetch(`https://goweather.herokuapp.com/weather/`)
-    .then(res => res.json())
-    .then(console.log)
-}
-
 // Render
 function renderWeather(city) {
+    let fTemperature = (city.temperature).split(' ')[0]
+    let newTemp = (fTemperature * 9/5) + 32
+
     let div = document.querySelector('#about')
 
     let liDescription = document.createElement('li')
@@ -38,21 +33,28 @@ function renderWeather(city) {
     liDescription.style.textAlign = 'left'
     liTemperature.style.textAlign = 'left'
     liWind.style.textAlign = 'left'
+    commentButton.className = 'commentButton'
     commentInput.setAttribute('type', 'text')
     commentInput.setAttribute('name', 'comment')
     submitInput.setAttribute('type', 'submit')
     submitInput.setAttribute('value', 'Add Comment')
 
     liDescription.textContent = city.description
-    liTemperature.textContent = city.temperature
+    liTemperature.textContent = `${newTemp} ℉`
     liWind.textContent = city.wind
     commentButton.textContent = 'Comment'
 
     div.append(liDescription, liTemperature, liWind, commentButton)
 
     commentButton.addEventListener('click', () => {
+        let divForm = document.createElement('div')
+
+        divForm.className = 'inputDiv'
+        commentButton.setAttribute('disabled', 'disabled')
+
         inputForm.append(commentInput, submitInput)
-        div.append(inputForm)
+        divForm.append(inputForm)
+        div.append(divForm)
     })
 
     inputForm.addEventListener('submit', (e) => {
@@ -65,9 +67,12 @@ function renderWeather(city) {
         let likeButton = document.createElement('button')
         let dislikeButton = document.createElement('button')
 
+        let divForm = document.querySelector('.inputDiv')
+
         liComment.textContent = e.target.comment.value
         likeButton.textContent = `Likes: ${likes}`
         dislikeButton.textContent = `Dislikes: ${dislikes}`
+        commentButton.removeAttribute('disabled', 'disabled')
 
         div.append(liComment, likeButton, dislikeButton)
 
@@ -78,8 +83,17 @@ function renderWeather(city) {
         dislikeButton.addEventListener('click', () => {
             dislikeButton.textContent = `Dislikes: ${dislikes++}`
         })
+
+        divForm.remove()
     })
 }
+
+function initialForm() {
+    
+}
+
+
+
 
 
 // {temperature: "17 °C", wind: "20 km/h", description: "Partly cloudy", forecast: Array(3)}
