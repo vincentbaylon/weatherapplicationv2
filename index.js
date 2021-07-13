@@ -10,10 +10,6 @@ function fetchSingleCity(city) {
     .then(renderWeather)
 }
 
-// fetchSingleCity('San Francisco')
-
-console.log('Vince, what up, g')
-
 // Render
 function renderWeather(city) {
     let fTemperature = (city.temperature).split(' ')[0]
@@ -30,6 +26,12 @@ function renderWeather(city) {
     let inputForm = document.createElement('form')
     let commentInput = document.createElement('input')
     let submitInput = document.createElement('input')
+    let descriptionSpan = document.createElement('span')
+    let temperatureSpan = document.createElement('span')
+    let windSpan = document.createElement('span')
+    let descriptionImage = document.createElement('img')
+    let temperatureImage = document.createElement('img')
+    let windImage = document.createElement('img')
 
     buttonContainer.className = 'buttonContainer'
     weatherContainer.className = 'weatherContainer'
@@ -44,14 +46,23 @@ function renderWeather(city) {
     commentInput.setAttribute('name', 'comment')
     submitInput.setAttribute('type', 'submit')
     submitInput.setAttribute('value', 'Add Comment')
+    descriptionImage.src = 'images/rain.png'
+    descriptionImage.className = 'imageSpan'
+    temperatureImage.src = 'images/farenheit.png'
+    temperatureImage.className = 'imageSpan'
+    windImage.src = 'images/wind.png'
+    windImage.className = 'imageSpan'
 
     liDescription.textContent = city.description
-    liTemperature.textContent = `${newTemp} ℉`
+    liTemperature.textContent = newTemp
     liWind.textContent = city.wind
     commentButton.textContent = 'Comment'
 
+    descriptionSpan.append(descriptionImage, liDescription)
+    temperatureSpan.append(temperatureImage, liTemperature)
+    windSpan.append(windImage, liWind)
     buttonContainer.append(commentButton)
-    weatherContainer.append(liDescription, liTemperature, liWind)
+    weatherContainer.append(descriptionSpan, temperatureSpan, windSpan)
     div.append(weatherContainer, buttonContainer)
 
     commentButton.addEventListener('click', () => {
