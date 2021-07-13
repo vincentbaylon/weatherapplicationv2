@@ -12,6 +12,8 @@ function fetchSingleCity(city) {
 
 fetchSingleCity('San Francisco')
 
+console.log('Vince, what up, g')
+
 // Render
 function renderWeather(city) {
     let fTemperature = (city.temperature).split(' ')[0]
