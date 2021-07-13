@@ -10,15 +10,19 @@ function fetchSingleCity(city) {
     .then(renderWeather)
 }
 
-fetchSingleCity('San Francisco')
-
 // Render
 function renderWeather(city) {
     let fTemperature = (city.temperature).split(' ')[0]
     let newTemp = (fTemperature * 9/5) + 32
+    let mWind = (city.wind).split(' ')[0]
+    let wind = mWind / 1.69
+    console.log(wind.toFixed(2))
+    //let wind = mWind / partFloat.(kmToMi)
 
     let div = document.querySelector('#about')
 
+    let buttonContainer = document.createElement('div')
+    let weatherContainer = document.createElement('div')
     let liDescription = document.createElement('li')
     let liTemperature = document.createElement('li')
     let liWind = document.createElement('li')
@@ -26,7 +30,15 @@ function renderWeather(city) {
     let inputForm = document.createElement('form')
     let commentInput = document.createElement('input')
     let submitInput = document.createElement('input')
+    let descriptionSpan = document.createElement('span')
+    let temperatureSpan = document.createElement('span')
+    let windSpan = document.createElement('span')
+    let descriptionImage = document.createElement('img')
+    let temperatureImage = document.createElement('img')
+    let windImage = document.createElement('img')
 
+    buttonContainer.className = 'buttonContainer'
+    weatherContainer.className = 'weatherContainer'
     liDescription.style.listStyle = 'none'
     liTemperature.style.listStyle = 'none'
     liWind.style.listStyle = 'none'
@@ -38,13 +50,24 @@ function renderWeather(city) {
     commentInput.setAttribute('name', 'comment')
     submitInput.setAttribute('type', 'submit')
     submitInput.setAttribute('value', 'Add Comment')
+    descriptionImage.src = 'images/rain.png'
+    descriptionImage.className = 'imageSpan'
+    temperatureImage.src = 'images/farenheit.png'
+    temperatureImage.className = 'imageSpan'
+    windImage.src = 'images/wind.png'
+    windImage.className = 'imageSpan'
 
     liDescription.textContent = city.description
-    liTemperature.textContent = `${newTemp} ℉`
-    liWind.textContent = city.wind
+    liTemperature.textContent = newTemp
+    liWind.textContent = wind.toFixed(2) + "MPH"
     commentButton.textContent = 'Comment'
 
-    div.append(liDescription, liTemperature, liWind, commentButton)
+    descriptionSpan.append(descriptionImage, liDescription)
+    temperatureSpan.append(temperatureImage, liTemperature)
+    windSpan.append(windImage, liWind)
+    buttonContainer.append(commentButton)
+    weatherContainer.append(descriptionSpan, temperatureSpan, windSpan)
+    div.append(weatherContainer, buttonContainer)
 
     commentButton.addEventListener('click', () => {
         let divForm = document.createElement('div')
@@ -55,6 +78,7 @@ function renderWeather(city) {
         inputForm.append(commentInput, submitInput)
         divForm.append(inputForm)
         div.append(divForm)
+        commentButton.remove()
     })
 
     inputForm.addEventListener('submit', (e) => {
@@ -63,9 +87,14 @@ function renderWeather(city) {
         let likes = 0
         let dislikes = 0
 
+        let commentDiv = document.createElement('div')
         let liComment = document.createElement('li')
         let likeButton = document.createElement('button')
         let dislikeButton = document.createElement('button')
+
+        likeButton.className = 'likeButton'
+        dislikeButton.className = 'dislikeButton'
+        commentDiv.className = 'commentDiv'
 
         let divForm = document.querySelector('.inputDiv')
 
@@ -74,7 +103,9 @@ function renderWeather(city) {
         dislikeButton.textContent = `Dislikes: ${dislikes}`
         commentButton.removeAttribute('disabled', 'disabled')
 
-        div.append(liComment, likeButton, dislikeButton)
+        liComment.style.listStyle = 'none'
+        commentDiv.append(liComment, likeButton, dislikeButton)
+        div.append(commentDiv)
 
         likeButton.addEventListener('click', () => {
             likeButton.textContent = `Likes: ${likes++}`
@@ -89,25 +120,43 @@ function renderWeather(city) {
 }
 
 function initialForm() {
-    
+    let div = document.querySelector('.searchDiv')
+
+    let inputForm = document.createElement('form')
+    let searchInput = document.createElement('input')
+    let submitInput = document.createElement('input')
+
+    inputForm.className = 'searchBar'
+    searchInput.className = 'searchCity'
+    submitInput.id = 'searchButton'
+    searchInput.setAttribute('type', 'text')
+    searchInput.setAttribute('name', 'search')
+    submitInput.setAttribute('type', 'submit')
+    submitInput.setAttribute('value', 'Search City')
+    submitInput.style.height = '50px'
+
+    inputForm.append(searchInput, submitInput)
+    div.append(inputForm)
+
+    inputForm.addEventListener('submit', (e) => {
+        e.preventDefault()
+
+        let aboutDiv = document.querySelector('#about')
+        
+        aboutDiv.innerHTML = ''
+        let hR = document.createElement('hr')
+        let hRTwo = document.createElement('hr')
+        let hTwo = document.createElement('h2')
+
+        hTwo.textContent = 'Current Weather in Your Area'
+
+        document.querySelector('#about').append(hTwo, hR, hRTwo)
+
+        let city = e.target.search.value
+        
+        fetchSingleCity(city)
+    })
 }
 
+initialForm()
 
-
-
-
-// {temperature: "17 °C", wind: "20 km/h", description: "Partly cloudy", forecast: Array(3)}
-// description: "Partly cloudy"
-// forecast: Array(3)
-// 0:
-// day: "1"
-// temperature: "17 °C"
-// wind: "18 km/h"
-// __proto__: Object
-// 1: {day: "2", temperature: "15 °C", wind: "24 km/h"}
-// 2: {day: "3", temperature: "+13 °C", wind: "26 km/h"}
-// length: 3
-// __proto__: Array(0)
-// temperature: "17 °C"
-// wind: "20 km/h"
-// __proto__: Object
