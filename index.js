@@ -15,7 +15,9 @@ function renderWeather(city) {
     let fTemperature = (city.temperature).split(' ')[0]
     let newTemp = (fTemperature * 9/5) + 32
     let mWind = (city.wind).split(' ')[0]
-    let wind = mWind / partFloat.(1.69)
+    let wind = mWind / 1.69
+    console.log(wind.toFixed(2))
+    //let wind = mWind / partFloat.(kmToMi)
 
     let div = document.querySelector('#about')
 
@@ -57,7 +59,7 @@ function renderWeather(city) {
 
     liDescription.textContent = city.description
     liTemperature.textContent = newTemp
-    liWind.textContent = city.wind
+    liWind.textContent = wind.toFixed(2) + "MPH"
     commentButton.textContent = 'Comment'
 
     descriptionSpan.append(descriptionImage, liDescription)
