@@ -21,6 +21,7 @@ function renderWeather(city) {
 
     let div = document.querySelector('#about')
 
+    let weatherContainer = document.createElement('div')
     let liDescription = document.createElement('li')
     let liTemperature = document.createElement('li')
     let liWind = document.createElement('li')
@@ -29,6 +30,7 @@ function renderWeather(city) {
     let commentInput = document.createElement('input')
     let submitInput = document.createElement('input')
 
+    weatherContainer.className = 'weatherContainer'
     liDescription.style.listStyle = 'none'
     liTemperature.style.listStyle = 'none'
     liWind.style.listStyle = 'none'
@@ -46,7 +48,8 @@ function renderWeather(city) {
     liWind.textContent = city.wind
     commentButton.textContent = 'Comment'
 
-    div.append(liDescription, liTemperature, liWind, commentButton)
+    weatherContainer.append(liDescription, liTemperature, liWind, commentButton)
+    div.append(weatherContainer)
 
     commentButton.addEventListener('click', () => {
         let divForm = document.createElement('div')
@@ -66,9 +69,14 @@ function renderWeather(city) {
         let likes = 0
         let dislikes = 0
 
+        let commentDiv = document.createElement('div')
         let liComment = document.createElement('li')
         let likeButton = document.createElement('button')
         let dislikeButton = document.createElement('button')
+
+        likeButton.className = 'likeButton'
+        dislikeButton.className = 'dislikeButton'
+        commentDiv.className = 'commentDiv'
 
         let divForm = document.querySelector('.inputDiv')
 
@@ -77,7 +85,9 @@ function renderWeather(city) {
         dislikeButton.textContent = `Dislikes: ${dislikes}`
         commentButton.removeAttribute('disabled', 'disabled')
 
-        div.append(liComment, likeButton, dislikeButton)
+        liComment.style.listStyle = 'none'
+        commentDiv.append(liComment, likeButton, dislikeButton)
+        div.append(commentDiv)
 
         likeButton.addEventListener('click', () => {
             likeButton.textContent = `Likes: ${likes++}`
@@ -112,11 +122,17 @@ function initialForm() {
 
     inputForm.addEventListener('submit', (e) => {
         e.preventDefault()
-        let li = document.querySelectorAll('li')
 
-        console.log(li)
+        let aboutDiv = document.querySelector('#about')
+        
+        aboutDiv.innerHTML = ''
+        let hR = document.createElement('hr')
+        let hRTwo = document.createElement('hr')
+        let hTwo = document.createElement('h2')
 
-        li.forEach(li => li.remove())
+        hTwo.textContent = 'Current Weather in Your Area'
+
+        document.querySelector('#about').append(hTwo, hR, hRTwo)
 
         let city = e.target.search.value
         
