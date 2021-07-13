@@ -10,7 +10,7 @@ function fetchSingleCity(city) {
     .then(renderWeather)
 }
 
-fetchSingleCity('San Francisco')
+// fetchSingleCity('San Francisco')
 
 console.log('Vince, what up, g')
 
@@ -57,6 +57,7 @@ function renderWeather(city) {
         inputForm.append(commentInput, submitInput)
         divForm.append(inputForm)
         div.append(divForm)
+        commentButton.remove()
     })
 
     inputForm.addEventListener('submit', (e) => {
@@ -91,25 +92,37 @@ function renderWeather(city) {
 }
 
 function initialForm() {
-    
+    let div = document.querySelector('.searchDiv')
+
+    let inputForm = document.createElement('form')
+    let searchInput = document.createElement('input')
+    let submitInput = document.createElement('input')
+
+    inputForm.className = 'searchBar'
+    searchInput.className = 'searchCity'
+    submitInput.id = 'searchButton'
+    searchInput.setAttribute('type', 'text')
+    searchInput.setAttribute('name', 'search')
+    submitInput.setAttribute('type', 'submit')
+    submitInput.setAttribute('value', 'Search City')
+    submitInput.style.height = '50px'
+
+    inputForm.append(searchInput, submitInput)
+    div.append(inputForm)
+
+    inputForm.addEventListener('submit', (e) => {
+        e.preventDefault()
+        let li = document.querySelectorAll('li')
+
+        console.log(li)
+
+        li.forEach(li => li.remove())
+
+        let city = e.target.search.value
+        
+        fetchSingleCity(city)
+    })
 }
 
+initialForm()
 
-
-
-
-// {temperature: "17 °C", wind: "20 km/h", description: "Partly cloudy", forecast: Array(3)}
-// description: "Partly cloudy"
-// forecast: Array(3)
-// 0:
-// day: "1"
-// temperature: "17 °C"
-// wind: "18 km/h"
-// __proto__: Object
-// 1: {day: "2", temperature: "15 °C", wind: "24 km/h"}
-// 2: {day: "3", temperature: "+13 °C", wind: "26 km/h"}
-// length: 3
-// __proto__: Array(0)
-// temperature: "17 °C"
-// wind: "20 km/h"
-// __proto__: Object
