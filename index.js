@@ -18,7 +18,7 @@ function renderWeather(city) {
     let wind = mWind / 1.69
     console.log(wind.toFixed(2))
     //let wind = mWind / partFloat.(kmToMi)
-
+    
     let div = document.querySelector('#about')
 
     let buttonContainer = document.createElement('div')
@@ -50,7 +50,7 @@ function renderWeather(city) {
     commentInput.setAttribute('name', 'comment')
     submitInput.setAttribute('type', 'submit')
     submitInput.setAttribute('value', 'Add Comment')
-
+    
     const imageSelection = (city) => {
         if (city.description.includes('Sun') || (city.description.includes('Cle'))) {
             return 'images/sun.png'
@@ -181,14 +181,19 @@ document.querySelector('#aboutThisApp').addEventListener('click', () => {
     let hRTwo = document.createElement('hr')
     let hTwo = document.createElement('h2')
     let pContent = document.createElement('p')
+    let pCreators = document.createElement('p')
 
     aboutDiv.innerHTML = ''
-
+    pCreators.style.color = '#fb8b24'
+    pContent.style.color = '#F1F1F1'
+    pContent.style.color = '#F1F1F1'
     hTwo.style.color = '#F1F1F1'
     hTwo.textContent = 'About This App'
-    pContent.textContent = 'Dead Ass'
+    pContent.textContent = 'The purpose of this project was to create a crowd-sourced weather reporting application. Similar to how Waze functions, we wanted users to be able to report on current weather conditions in real-time. Weather predictions are just that -- predictions. Any given weather prediction application might tell you that it is cloudy outside, but in reality it is raining right outside your door. With this in mind, we have created Dead Ass for those who may be stuck in some building and do not want to miss out on the rain.'
 
-    aboutDiv.append(hTwo, hR, hRTwo, pContent)
+    pCreators.textContent = 'Created by Vincent Baylon and Trevor Zylks'
+
+    aboutDiv.append(hTwo, hR, hRTwo, pContent, pCreators)
 })
 
 initialForm()
