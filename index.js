@@ -21,6 +21,7 @@ function renderWeather(city) {
 
     let div = document.querySelector('#about')
 
+    let buttonContainer = document.createElement('div')
     let weatherContainer = document.createElement('div')
     let liDescription = document.createElement('li')
     let liTemperature = document.createElement('li')
@@ -30,6 +31,7 @@ function renderWeather(city) {
     let commentInput = document.createElement('input')
     let submitInput = document.createElement('input')
 
+    buttonContainer.className = 'buttonContainer'
     weatherContainer.className = 'weatherContainer'
     liDescription.style.listStyle = 'none'
     liTemperature.style.listStyle = 'none'
@@ -48,8 +50,9 @@ function renderWeather(city) {
     liWind.textContent = city.wind
     commentButton.textContent = 'Comment'
 
-    weatherContainer.append(liDescription, liTemperature, liWind, commentButton)
-    div.append(weatherContainer)
+    buttonContainer.append(commentButton)
+    weatherContainer.append(liDescription, liTemperature, liWind)
+    div.append(weatherContainer, buttonContainer)
 
     commentButton.addEventListener('click', () => {
         let divForm = document.createElement('div')
