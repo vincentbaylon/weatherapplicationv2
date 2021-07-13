@@ -50,7 +50,23 @@ function renderWeather(city) {
     commentInput.setAttribute('name', 'comment')
     submitInput.setAttribute('type', 'submit')
     submitInput.setAttribute('value', 'Add Comment')
-    descriptionImage.src = 'images/rain.png'
+
+    const imageSelection = (city) => {
+        if (city.description.includes('Sun') || (city.description.includes('Cle'))) {
+            return 'images/sun.png'
+        } else if (city.description.includes('clo')) {
+            return 'images/cloudy.png'
+        } else if (city.description.includes('rain') || city.description.includes('Rain')) {
+            return 'images/rain.png'
+        } else if (city.description.includes('snow')) {
+            return 'images/snow.png'
+        } else {
+            return 'images/defaultcloud.png'
+        }
+    }
+
+    descriptionImage.src = imageSelection(city)
+
     descriptionImage.className = 'imageSpan'
     temperatureImage.src = 'images/farenheit.png'
     temperatureImage.className = 'imageSpan'
@@ -157,6 +173,23 @@ function initialForm() {
         fetchSingleCity(city)
     })
 }
+
+document.querySelector('#aboutThisApp').addEventListener('click', () => {
+    let aboutDiv = document.querySelector('#about')
+
+    let hR = document.createElement('hr')
+    let hRTwo = document.createElement('hr')
+    let hTwo = document.createElement('h2')
+    let pContent = document.createElement('p')
+
+    aboutDiv.innerHTML = ''
+
+    hTwo.style.color = '#F1F1F1'
+    hTwo.textContent = 'About This App'
+    pContent.textContent = 'Dead Ass'
+
+    aboutDiv.append(hTwo, hR, hRTwo, pContent)
+})
 
 initialForm()
 
