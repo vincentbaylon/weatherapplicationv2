@@ -14,6 +14,8 @@ function fetchSingleCity(city) {
 function renderWeather(city) {
     let fTemperature = (city.temperature).split(' ')[0]
     let newTemp = (fTemperature * 9/5) + 32
+    let mWind = (city.wind).split(' ')[0]
+    let wind = mWind / partFloat.(1.69)
 
     let div = document.querySelector('#about')
 
