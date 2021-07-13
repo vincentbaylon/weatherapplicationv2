@@ -191,5 +191,39 @@ document.querySelector('#aboutThisApp').addEventListener('click', () => {
     aboutDiv.append(hTwo, hR, hRTwo, pContent)
 })
 
+document.querySelector('#resources').addEventListener('click', () => {
+    let aboutDiv = document.querySelector('#about')
+
+    let hR = document.createElement('hr')
+    let hRTwo = document.createElement('hr')
+    let hTwo = document.createElement('h2')
+    let pContent = document.createElement('p')
+
+    aboutDiv.innerHTML = ''
+
+    hTwo.style.color = '#F1F1F1'
+    hTwo.textContent = 'Resources'
+    pContent.textContent = 'Dead Ass'
+
+    aboutDiv.append(hTwo, hR, hRTwo, pContent)
+})
+
+document.querySelector('#contact').addEventListener('click', () => {
+    let aboutDiv = document.querySelector('#about')
+
+    let hR = document.createElement('hr')
+    let hRTwo = document.createElement('hr')
+    let hTwo = document.createElement('h2')
+    let pContent = document.createElement('p')
+
+    aboutDiv.innerHTML = ''
+
+    hTwo.style.color = '#F1F1F1'
+    hTwo.textContent = 'Contact'
+    pContent.textContent = 'Dead Ass'
+
+    aboutDiv.append(hTwo, hR, hRTwo, pContent)
+})
+
 initialForm()
 
