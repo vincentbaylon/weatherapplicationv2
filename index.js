@@ -1,5 +1,10 @@
+// Const
+const aboutDiv = document.querySelector('#about')
+let currentCity = ''
+
 // Fetch
 function fetchSingleCity(city) {
+    let originalCityStr = city
     if (city.includes(' ')) {
         let cityArray = city.split(' ')
         city = cityArray.join('_')
@@ -7,7 +12,19 @@ function fetchSingleCity(city) {
 
     fetch(`https://goweather.herokuapp.com/weather/${city}`)
     .then(res => res.json())
-    .then(renderWeather)
+    .then(json => {
+        renderWeather(json)
+        fetchComments(originalCityStr)
+    })
+}
+
+function fetchComments(city) {
+    fetch(`http://localhost:3000/city/`)
+    .then(res => res.json())
+    .then(json => { 
+        let cityMatch = json.find(eachCity => eachCity.name === city)
+        renderComments(cityMatch)
+    })
 }
 
 // Render
@@ -16,10 +33,8 @@ function renderWeather(city) {
     let newTemp = (fTemperature * 9/5) + 32
     let mWind = (city.wind).split(' ')[0]
     let wind = mWind / 1.69
-    console.log(wind.toFixed(2))
+    //console.log(wind.toFixed(2))
     //let wind = mWind / partFloat.(kmToMi)
-
-    let div = document.querySelector('#about')
 
     let buttonContainer = document.createElement('div')
     let weatherContainer = document.createElement('div')
@@ -27,9 +42,7 @@ function renderWeather(city) {
     let liTemperature = document.createElement('li')
     let liWind = document.createElement('li')
     let commentButton = document.createElement('button')
-    let inputForm = document.createElement('form')
-    let commentInput = document.createElement('input')
-    let submitInput = document.createElement('input')
+    
     let descriptionSpan = document.createElement('span')
     let temperatureSpan = document.createElement('span')
     let windSpan = document.createElement('span')
@@ -46,11 +59,24 @@ function renderWeather(city) {
     liTemperature.style.textAlign = 'left'
     liWind.style.textAlign = 'left'
     commentButton.className = 'commentButton'
-    commentInput.setAttribute('type', 'text')
-    commentInput.setAttribute('name', 'comment')
-    submitInput.setAttribute('type', 'submit')
-    submitInput.setAttribute('value', 'Add Comment')
-    descriptionImage.src = 'images/rain.png'
+
+    
+    const imageSelection = (city) => {
+        if (city.description.includes('Sun') || (city.description.includes('Cle'))) {
+            return 'images/sun.png'
+        } else if (city.description.includes('clo')) {
+            return 'images/partlycloudy.png'
+        } else if (city.description.includes('rain') || city.description.includes('Rain')) {
+            return 'images/rain.png'
+        } else if (city.description.includes('snow')) {
+            return 'images/snow.png'
+        } else {
+            return 'images/defaultcloud.png'
+        }
+    }
+
+    descriptionImage.src = imageSelection(city)
+
     descriptionImage.className = 'imageSpan'
     temperatureImage.src = 'images/farenheit.png'
     temperatureImage.className = 'imageSpan'
@@ -67,57 +93,215 @@ function renderWeather(city) {
     windSpan.append(windImage, liWind)
     buttonContainer.append(commentButton)
     weatherContainer.append(descriptionSpan, temperatureSpan, windSpan)
-    div.append(weatherContainer, buttonContainer)
+    aboutDiv.append(weatherContainer, buttonContainer)
 
     commentButton.addEventListener('click', () => {
-        let divForm = document.createElement('div')
-
-        divForm.className = 'inputDiv'
-        commentButton.setAttribute('disabled', 'disabled')
-
-        inputForm.append(commentInput, submitInput)
-        divForm.append(inputForm)
-        div.append(divForm)
-        commentButton.remove()
+        clickCommentButton(city)
     })
+}
+
+// Function for clicking comment button
+function clickCommentButton(city) {
+    let commentButton = document.querySelector('.commentButton')
+
+    let inputForm = document.createElement('form')
+    let divForm = document.createElement('div')
+    let commentInput = document.createElement('input')
+    let submitInput = document.createElement('input')
+
+    commentInput.setAttribute('type', 'text')
+    commentInput.setAttribute('name', 'comment')
+    submitInput.setAttribute('type', 'submit')
+    submitInput.setAttribute('value', 'Add Comment')
+    divForm.className = 'inputDiv'
+    commentButton.setAttribute('disabled', 'disabled')
+
+    inputForm.append(commentInput, submitInput)
+    divForm.append(inputForm)
+    aboutDiv.append(divForm)
 
     inputForm.addEventListener('submit', (e) => {
         e.preventDefault()
 
-        let likes = 0
-        let dislikes = 0
-
-        let commentDiv = document.createElement('div')
-        let liComment = document.createElement('li')
-        let likeButton = document.createElement('button')
-        let dislikeButton = document.createElement('button')
-
-        likeButton.className = 'likeButton'
-        dislikeButton.className = 'dislikeButton'
-        commentDiv.className = 'commentDiv'
-
-        let divForm = document.querySelector('.inputDiv')
-
-        liComment.textContent = e.target.comment.value
-        likeButton.textContent = `Likes: ${likes}`
-        dislikeButton.textContent = `Dislikes: ${dislikes}`
-        commentButton.removeAttribute('disabled', 'disabled')
-
-        liComment.style.listStyle = 'none'
-        commentDiv.append(liComment, likeButton, dislikeButton)
-        div.append(commentDiv)
-
-        likeButton.addEventListener('click', () => {
-            likeButton.textContent = `Likes: ${likes++}`
-        })
-
-        dislikeButton.addEventListener('click', () => {
-            dislikeButton.textContent = `Dislikes: ${dislikes++}`
-        })
-
-        divForm.remove()
+        submitComment(city, e)
     })
 }
+
+// Function for submitting comments
+let commentId = 0
+
+function submitComment(city, e) {
+    let likes = 0
+    let dislikes = 0
+
+    let commentButton = document.querySelector('.commentButton')
+
+    let commentDiv = document.createElement('div')
+    let liComment = document.createElement('li')
+    let likeButton = document.createElement('button')
+    let dislikeButton = document.createElement('button')
+
+    likeButton.className = 'likeButton'
+    dislikeButton.className = 'dislikeButton'
+    commentDiv.className = 'commentDiv'
+
+    let divForm = document.querySelector('.inputDiv')
+
+    liComment.textContent = e.target.comment.value
+    likeButton.textContent = `Likes: ${likes}`
+    dislikeButton.textContent = `Dislikes: ${dislikes}`
+    commentButton.removeAttribute('disabled', 'disabled')
+
+    liComment.style.listStyle = 'none'
+    commentDiv.append(liComment, likeButton, dislikeButton)
+    aboutDiv.append(commentDiv)
+
+    likeButton.addEventListener('click', () => {
+        likeButton.textContent = `Likes: ${likes++}`
+    })
+
+    dislikeButton.addEventListener('click', () => {
+        dislikeButton.textContent = `Dislikes: ${dislikes++}`
+    })
+
+    divForm.remove()
+    patchComment(currentCity, liComment.textContent)
+    commentId += 1
+}
+
+function renderComments(city) {
+    //console.log(city)
+    let likes = 0
+    let dislikes = 0
+
+    let commentButton = document.querySelector('.commentButton')
+
+    let commentDiv = document.createElement('div')
+    let liComment = document.createElement('li')
+    let likeButton = document.createElement('button')
+    let dislikeButton = document.createElement('button')
+
+    likeButton.className = 'likeButton'
+    dislikeButton.className = 'dislikeButton'
+    commentDiv.className = 'commentDiv'
+
+    // liComment.textContent = city.comments[0].content
+    likeButton.textContent = `Likes: ${likes}`
+    dislikeButton.textContent = `Dislikes: ${dislikes}`
+    commentButton.removeAttribute('disabled', 'disabled')
+
+    liComment.style.listStyle = 'none'
+    commentDiv.append(liComment, likeButton, dislikeButton)
+    aboutDiv.append(commentDiv)
+
+    likeButton.addEventListener('click', () => {
+        likeButton.textContent = `Likes: ${likes++}`
+    })
+
+    dislikeButton.addEventListener('click', () => {
+        dislikeButton.textContent = `Dislikes: ${dislikes++}`
+    })
+}
+
+// Helper Function
+
+
+// Event Listener
+document.querySelector('#aboutThisApp').addEventListener('click', () => {
+
+    let hR = document.createElement('hr')
+    let hRTwo = document.createElement('hr')
+    let hTwo = document.createElement('h2')
+    let pContent = document.createElement('p')
+    let pCreators = document.createElement('p')
+
+    aboutDiv.innerHTML = ''
+    pCreators.style.color = '#fb8b24'
+    pContent.style.color = '#F1F1F1'
+    pContent.style.color = '#F1F1F1'
+    hTwo.style.color = '#F1F1F1'
+    hTwo.textContent = 'About This App'
+    pContent.textContent = 'The purpose of this project was to create a crowd-sourced weather reporting application. Similar to how Waze functions, we wanted users to be able to report on current weather conditions in real-time. Weather predictions are just that -- predictions. Any given weather prediction application might tell you that it is cloudy outside, but in reality it is raining right outside your door. With this in mind, we have created Dead Ass for those who may be stuck in some building and do not want to miss out on the rain.'
+
+    pCreators.textContent = 'Created by Vincent Baylon and Trevor Zylks'
+
+    aboutDiv.append(hTwo, hR, hRTwo, pContent, pCreators)
+})
+
+document.querySelector('#resources').addEventListener('click', () => {
+    let hR = document.createElement('hr')
+    let hRTwo = document.createElement('hr')
+    let hTwo = document.createElement('h2')
+    let pContent = document.createElement('p')
+
+    aboutDiv.innerHTML = ''
+
+    hTwo.style.color = '#F1F1F1'
+    hTwo.textContent = 'Resources'
+    pContent.textContent = 'Dead Ass'
+
+    aboutDiv.append(hTwo, hR, hRTwo, pContent)
+})
+
+document.querySelector('#contact').addEventListener('click', () => {
+    let hR = document.createElement('hr')
+    let hRTwo = document.createElement('hr')
+    let hTwo = document.createElement('h2')
+    let pContent = document.createElement('p')
+
+    aboutDiv.innerHTML = ''
+
+    hTwo.style.color = '#F1F1F1'
+    hTwo.textContent = 'Contact'
+    pContent.textContent = 'Dead Ass'
+
+    aboutDiv.append(hTwo, hR, hRTwo, pContent)
+})
+
+// Patch
+
+function postCity(city, id) {
+    fetch('http://localhost:3000/city/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: id,
+            name: city,
+            comment: []
+        })
+    })
+    .then(res => res.json())
+    .then(json => console.log(currentCity = json))
+}
+
+function patchComment(city, comment) {
+    fetch(`http://localhost:3000/city/${city.id}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            { 
+            "op": "add", 
+            "path": "/content", 
+            "value": comment
+            },
+
+
+            // comment: [{
+            //     id: commentId,
+            //     content: comment,
+            //     cityId: city.id
+            // }]
+        })
+    })
+    .then(res => res.json())
+    .then(json => json)
+}
+
+// Initial Render
 
 function initialForm() {
     let div = document.querySelector('.searchDiv')
@@ -134,14 +318,13 @@ function initialForm() {
     submitInput.setAttribute('type', 'submit')
     submitInput.setAttribute('value', 'Search City')
     submitInput.style.height = '50px'
+    searchInput.style.textTransform = 'capitalize'
 
     inputForm.append(searchInput, submitInput)
     div.append(inputForm)
 
     inputForm.addEventListener('submit', (e) => {
         e.preventDefault()
-
-        let aboutDiv = document.querySelector('#about')
         
         aboutDiv.innerHTML = ''
         let hR = document.createElement('hr')
@@ -155,8 +338,26 @@ function initialForm() {
         let city = e.target.search.value
         
         fetchSingleCity(city)
+        
+        fetchCheck(city, id)
     })
 }
 
 initialForm()
+
+//Check function
+let id = 0
+
+
+function fetchCheck(city, id) {
+    fetch(`http://localhost:3000/city/`)
+    .then(res => res.json())
+    .then(json => { 
+        let cityMatch = json.find(eachCity => eachCity.name === city)
+        if (cityMatch === undefined) {
+         id+=
+         postCity(city, id)
+        }
+    })
+}
 
