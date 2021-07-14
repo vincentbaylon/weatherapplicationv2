@@ -1,28 +1,44 @@
 {
-    "city": [
+  "city": [
+    {
+      "id": 1,
+      "name": "San Francisco",
+      "comments": [
         {
-            "id": 1,
-            "name": "San Francisco",
-            "comments": [
-                {
-                    "id": 1,
-                    "content": "What a beautiful day!",
-                    "likes": 0,
-                    "dislikes": 0
-                }
-            ]
-        },
-        {
-            "id": 2,
-            "name": "Tucson",
-            "comments": [
-                {
-                    "id": 1,
-                    "content": "It is a nice day!",
-                    "likes": 0,
-                    "dislikes": 0
-                }
-            ]
+          "id": 1,
+          "content": "What a beautiful day!",
+          "likes": 0,
+          "dislikes": 0
         }
-    ]
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Tucson",
+      "comments": [
+        {
+          "id": 1,
+          "content": "It is a nice day!",
+          "likes": 0,
+          "dislikes": 0
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "New York"
+    },
+    {
+      "id": 4,
+      "name": "Las Vegas",
+      "comments": [
+        {
+          "id": 1,
+          "content": "It's a sunny day!",
+          "likes": 0,
+          "dislikes": 0
+        }
+      ]
+    }
+  ]
 }

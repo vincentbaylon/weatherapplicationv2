@@ -238,19 +238,22 @@ document.querySelector('#contact').addEventListener('click', () => {
 })
 
 // Patch
-function patchCity(city) {
+function postCity(city) {
+    let id = 0
     fetch('http://localhost:3000/city/', {
-        method: 'PATCH',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            // Data to patch
+
         })
     })
     .then(res => res.json())
-    .then(json => json)
+    .then(console.log)
 }
+
+patchCity()
 
 function patchComment(city, comment) {
     fetch(`http://localhost:3000/city/${city.id}`, {
@@ -259,7 +262,7 @@ function patchComment(city, comment) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            // Data to patch
+
         })
     })
     .then(res => res.json())
@@ -302,6 +305,7 @@ function initialForm() {
         let city = e.target.search.value
         
         fetchSingleCity(city)
+        patchCity(city)
     })
 }
 
