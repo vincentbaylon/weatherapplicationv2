@@ -282,20 +282,17 @@ function patchComment(city, comment) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-            { 
-            "op": "add", 
+        body: JSON.stringify(
+            {
+            comment: [{
+                id: commentId,
+                "op": "add", 
             "path": "/content", 
-            "value": comment
-            },
-
-
-            // comment: [{
-            //     id: commentId,
-            //     content: comment,
-            //     cityId: city.id
-            // }]
-        })
+            "value": comment,
+                cityId: city.id
+            }]
+        }
+        )
     })
     .then(res => res.json())
     .then(json => json)
