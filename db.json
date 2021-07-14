@@ -1,16 +1,5 @@
 {
   "city": [
-    {
-      "id": 1,
-      "name": "Las Vegas"
-    },
-    {
-      "id": 2,
-      "name": "Tucson"
-    },
-    {
-      "id": 3,
-      "name": "Phoenix"
-    }
+      
   ]
 }
