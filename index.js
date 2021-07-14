@@ -237,15 +237,29 @@ document.querySelector('#contact').addEventListener('click', () => {
     aboutDiv.append(hTwo, hR, hRTwo, pContent)
 })
 
-// Patch Comment
-function patchComment(city, comment) {
-    fetch(`http://localhost:3000/1/${city.id}`, {
+// Patch
+function patchCity(city) {
+    fetch('http://localhost:3000/city/', {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            comments: comment
+            // Data to patch
+        })
+    })
+    .then(res => res.json())
+    .then(json => json)
+}
+
+function patchComment(city, comment) {
+    fetch(`http://localhost:3000/city/${city.id}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            // Data to patch
         })
     })
     .then(res => res.json())
@@ -268,6 +282,7 @@ function initialForm() {
     submitInput.setAttribute('type', 'submit')
     submitInput.setAttribute('value', 'Search City')
     submitInput.style.height = '50px'
+    searchInput.style.textTransform = 'capitalize'
 
     inputForm.append(searchInput, submitInput)
     div.append(inputForm)
