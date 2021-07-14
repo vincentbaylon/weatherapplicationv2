@@ -1,5 +1,9 @@
+// Const
+const aboutDiv = document.querySelector('#about')
+
 // Fetch
 function fetchSingleCity(city) {
+    let originalCityStr = city
     if (city.includes(' ')) {
         let cityArray = city.split(' ')
         city = cityArray.join('_')
@@ -7,7 +11,19 @@ function fetchSingleCity(city) {
 
     fetch(`https://goweather.herokuapp.com/weather/${city}`)
     .then(res => res.json())
-    .then(renderWeather)
+    .then(json => {
+        renderWeather(json)
+        fetchComments(originalCityStr)
+    })
+}
+
+function fetchComments(city) {
+    fetch(`http://localhost:3000/city/`)
+    .then(res => res.json())
+    .then(json => { 
+        let cityMatch = json.find(eachCity => eachCity.name === city)
+        renderComments(cityMatch)
+    })
 }
 
 // Render
@@ -18,8 +34,6 @@ function renderWeather(city) {
     let wind = mWind / 1.69
     console.log(wind.toFixed(2))
     //let wind = mWind / partFloat.(kmToMi)
-    
-    let div = document.querySelector('#about')
 
     let buttonContainer = document.createElement('div')
     let weatherContainer = document.createElement('div')
@@ -55,7 +69,7 @@ function renderWeather(city) {
         if (city.description.includes('Sun') || (city.description.includes('Cle'))) {
             return 'images/sun.png'
         } else if (city.description.includes('clo')) {
-            return 'images/cloudy.png'
+            return 'images/partlycloudy.png'
         } else if (city.description.includes('rain') || city.description.includes('Rain')) {
             return 'images/rain.png'
         } else if (city.description.includes('snow')) {
@@ -83,7 +97,7 @@ function renderWeather(city) {
     windSpan.append(windImage, liWind)
     buttonContainer.append(commentButton)
     weatherContainer.append(descriptionSpan, temperatureSpan, windSpan)
-    div.append(weatherContainer, buttonContainer)
+    aboutDiv.append(weatherContainer, buttonContainer)
 
     commentButton.addEventListener('click', () => {
         let divForm = document.createElement('div')
@@ -93,8 +107,7 @@ function renderWeather(city) {
 
         inputForm.append(commentInput, submitInput)
         divForm.append(inputForm)
-        div.append(divForm)
-        commentButton.remove()
+        aboutDiv.append(divForm)
     })
 
     inputForm.addEventListener('submit', (e) => {
@@ -121,7 +134,7 @@ function renderWeather(city) {
 
         liComment.style.listStyle = 'none'
         commentDiv.append(liComment, likeButton, dislikeButton)
-        div.append(commentDiv)
+        aboutDiv.append(commentDiv)
 
         likeButton.addEventListener('click', () => {
             likeButton.textContent = `Likes: ${likes++}`
@@ -135,6 +148,111 @@ function renderWeather(city) {
     })
 }
 
+function renderComments(city) {
+    console.log(city)
+    let likes = 0
+    let dislikes = 0
+
+    let commentButton = document.querySelector('.commentButton')
+
+    let commentDiv = document.createElement('div')
+    let liComment = document.createElement('li')
+    let likeButton = document.createElement('button')
+    let dislikeButton = document.createElement('button')
+
+    likeButton.className = 'likeButton'
+    dislikeButton.className = 'dislikeButton'
+    commentDiv.className = 'commentDiv'
+
+    liComment.textContent = city.comments[0].content
+    likeButton.textContent = `Likes: ${likes}`
+    dislikeButton.textContent = `Dislikes: ${dislikes}`
+    commentButton.removeAttribute('disabled', 'disabled')
+
+    liComment.style.listStyle = 'none'
+    commentDiv.append(liComment, likeButton, dislikeButton)
+    aboutDiv.append(commentDiv)
+
+    likeButton.addEventListener('click', () => {
+        likeButton.textContent = `Likes: ${likes++}`
+    })
+
+    dislikeButton.addEventListener('click', () => {
+        dislikeButton.textContent = `Dislikes: ${dislikes++}`
+    })
+}
+
+// Helper Function
+
+
+// Event Listener
+document.querySelector('#aboutThisApp').addEventListener('click', () => {
+
+    let hR = document.createElement('hr')
+    let hRTwo = document.createElement('hr')
+    let hTwo = document.createElement('h2')
+    let pContent = document.createElement('p')
+    let pCreators = document.createElement('p')
+
+    aboutDiv.innerHTML = ''
+    pCreators.style.color = '#fb8b24'
+    pContent.style.color = '#F1F1F1'
+    pContent.style.color = '#F1F1F1'
+    hTwo.style.color = '#F1F1F1'
+    hTwo.textContent = 'About This App'
+    pContent.textContent = 'The purpose of this project was to create a crowd-sourced weather reporting application. Similar to how Waze functions, we wanted users to be able to report on current weather conditions in real-time. Weather predictions are just that -- predictions. Any given weather prediction application might tell you that it is cloudy outside, but in reality it is raining right outside your door. With this in mind, we have created Dead Ass for those who may be stuck in some building and do not want to miss out on the rain.'
+
+    pCreators.textContent = 'Created by Vincent Baylon and Trevor Zylks'
+
+    aboutDiv.append(hTwo, hR, hRTwo, pContent, pCreators)
+})
+
+document.querySelector('#resources').addEventListener('click', () => {
+    let hR = document.createElement('hr')
+    let hRTwo = document.createElement('hr')
+    let hTwo = document.createElement('h2')
+    let pContent = document.createElement('p')
+
+    aboutDiv.innerHTML = ''
+
+    hTwo.style.color = '#F1F1F1'
+    hTwo.textContent = 'Resources'
+    pContent.textContent = 'Dead Ass'
+
+    aboutDiv.append(hTwo, hR, hRTwo, pContent)
+})
+
+document.querySelector('#contact').addEventListener('click', () => {
+    let hR = document.createElement('hr')
+    let hRTwo = document.createElement('hr')
+    let hTwo = document.createElement('h2')
+    let pContent = document.createElement('p')
+
+    aboutDiv.innerHTML = ''
+
+    hTwo.style.color = '#F1F1F1'
+    hTwo.textContent = 'Contact'
+    pContent.textContent = 'Dead Ass'
+
+    aboutDiv.append(hTwo, hR, hRTwo, pContent)
+})
+
+// Patch Comment
+function patchComment(city, comment) {
+    fetch(`http://localhost:3000/1/${city.id}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            comments: comment
+        })
+    })
+    .then(res => res.json())
+    .then(json => json)
+}
+
+// Initial Render
 function initialForm() {
     let div = document.querySelector('.searchDiv')
 
@@ -157,8 +275,6 @@ function initialForm() {
     inputForm.addEventListener('submit', (e) => {
         e.preventDefault()
 
-        let aboutDiv = document.querySelector('#about')
-        
         aboutDiv.innerHTML = ''
         let hR = document.createElement('hr')
         let hRTwo = document.createElement('hr')
@@ -173,62 +289,6 @@ function initialForm() {
         fetchSingleCity(city)
     })
 }
-
-document.querySelector('#aboutThisApp').addEventListener('click', () => {
-    let aboutDiv = document.querySelector('#about')
-
-    let hR = document.createElement('hr')
-    let hRTwo = document.createElement('hr')
-    let hTwo = document.createElement('h2')
-    let pContent = document.createElement('p')
-    let pCreators = document.createElement('p')
-
-    aboutDiv.innerHTML = ''
-    pCreators.style.color = '#fb8b24'
-    pContent.style.color = '#F1F1F1'
-    pContent.style.color = '#F1F1F1'
-    hTwo.style.color = '#F1F1F1'
-    hTwo.textContent = 'About This App'
-    pContent.textContent = 'The purpose of this project was to create a crowd-sourced weather reporting application. Similar to how Waze functions, we wanted users to be able to report on current weather conditions in real-time. Weather predictions are just that -- predictions. Any given weather prediction application might tell you that it is cloudy outside, but in reality it is raining right outside your door. With this in mind, we have created Dead Ass for those who may be stuck in some building and do not want to miss out on the rain.'
-
-    pCreators.textContent = 'Created by Vincent Baylon and Trevor Zylks'
-
-    aboutDiv.append(hTwo, hR, hRTwo, pContent, pCreators)
-})
-
-document.querySelector('#resources').addEventListener('click', () => {
-    let aboutDiv = document.querySelector('#about')
-
-    let hR = document.createElement('hr')
-    let hRTwo = document.createElement('hr')
-    let hTwo = document.createElement('h2')
-    let pContent = document.createElement('p')
-
-    aboutDiv.innerHTML = ''
-
-    hTwo.style.color = '#F1F1F1'
-    hTwo.textContent = 'Resources'
-    pContent.textContent = 'Dead Ass'
-
-    aboutDiv.append(hTwo, hR, hRTwo, pContent)
-})
-
-document.querySelector('#contact').addEventListener('click', () => {
-    let aboutDiv = document.querySelector('#about')
-
-    let hR = document.createElement('hr')
-    let hRTwo = document.createElement('hr')
-    let hTwo = document.createElement('h2')
-    let pContent = document.createElement('p')
-
-    aboutDiv.innerHTML = ''
-
-    hTwo.style.color = '#F1F1F1'
-    hTwo.textContent = 'Contact'
-    pContent.textContent = 'Dead Ass'
-
-    aboutDiv.append(hTwo, hR, hRTwo, pContent)
-})
 
 initialForm()
 

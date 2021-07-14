@@ -1,0 +1,28 @@
+{
+    "city": [
+        {
+            "id": 1,
+            "name": "San Francisco",
+            "comments": [
+                {
+                    "id": 1,
+                    "content": "What a beautiful day!",
+                    "likes": 0,
+                    "dislikes": 0
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Tucson",
+            "comments": [
+                {
+                    "id": 1,
+                    "content": "It is a nice day!",
+                    "likes": 0,
+                    "dislikes": 0
+                }
+            ]
+        }
+    ]
+}
