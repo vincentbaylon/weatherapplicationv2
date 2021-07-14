@@ -1,5 +1,6 @@
 // Const
 const aboutDiv = document.querySelector('#about')
+let currentCity = ''
 
 // Fetch
 function fetchSingleCity(city) {
@@ -41,9 +42,7 @@ function renderWeather(city) {
     let liTemperature = document.createElement('li')
     let liWind = document.createElement('li')
     let commentButton = document.createElement('button')
-    let inputForm = document.createElement('form')
-    let commentInput = document.createElement('input')
-    let submitInput = document.createElement('input')
+    
     let descriptionSpan = document.createElement('span')
     let temperatureSpan = document.createElement('span')
     let windSpan = document.createElement('span')
@@ -60,10 +59,7 @@ function renderWeather(city) {
     liTemperature.style.textAlign = 'left'
     liWind.style.textAlign = 'left'
     commentButton.className = 'commentButton'
-    commentInput.setAttribute('type', 'text')
-    commentInput.setAttribute('name', 'comment')
-    submitInput.setAttribute('type', 'submit')
-    submitInput.setAttribute('value', 'Add Comment')
+
     
     const imageSelection = (city) => {
         if (city.description.includes('Sun') || (city.description.includes('Cle'))) {
@@ -100,52 +96,77 @@ function renderWeather(city) {
     aboutDiv.append(weatherContainer, buttonContainer)
 
     commentButton.addEventListener('click', () => {
-        let divForm = document.createElement('div')
-
-        divForm.className = 'inputDiv'
-        commentButton.setAttribute('disabled', 'disabled')
-
-        inputForm.append(commentInput, submitInput)
-        divForm.append(inputForm)
-        aboutDiv.append(divForm)
+        clickCommentButton(city)
     })
+}
+
+// Function for clicking comment button
+function clickCommentButton(city) {
+    let commentButton = document.querySelector('.commentButton')
+
+    let inputForm = document.createElement('form')
+    let divForm = document.createElement('div')
+    let commentInput = document.createElement('input')
+    let submitInput = document.createElement('input')
+
+    commentInput.setAttribute('type', 'text')
+    commentInput.setAttribute('name', 'comment')
+    submitInput.setAttribute('type', 'submit')
+    submitInput.setAttribute('value', 'Add Comment')
+    divForm.className = 'inputDiv'
+    commentButton.setAttribute('disabled', 'disabled')
+
+    inputForm.append(commentInput, submitInput)
+    divForm.append(inputForm)
+    aboutDiv.append(divForm)
 
     inputForm.addEventListener('submit', (e) => {
         e.preventDefault()
 
-        let likes = 0
-        let dislikes = 0
-
-        let commentDiv = document.createElement('div')
-        let liComment = document.createElement('li')
-        let likeButton = document.createElement('button')
-        let dislikeButton = document.createElement('button')
-
-        likeButton.className = 'likeButton'
-        dislikeButton.className = 'dislikeButton'
-        commentDiv.className = 'commentDiv'
-
-        let divForm = document.querySelector('.inputDiv')
-
-        liComment.textContent = e.target.comment.value
-        likeButton.textContent = `Likes: ${likes}`
-        dislikeButton.textContent = `Dislikes: ${dislikes}`
-        commentButton.removeAttribute('disabled', 'disabled')
-
-        liComment.style.listStyle = 'none'
-        commentDiv.append(liComment, likeButton, dislikeButton)
-        aboutDiv.append(commentDiv)
-
-        likeButton.addEventListener('click', () => {
-            likeButton.textContent = `Likes: ${likes++}`
-        })
-
-        dislikeButton.addEventListener('click', () => {
-            dislikeButton.textContent = `Dislikes: ${dislikes++}`
-        })
-
-        divForm.remove()
+        submitComment(city, e)
     })
+}
+
+// Function for submitting comments
+let commentId = 0
+
+function submitComment(city, e) {
+    let likes = 0
+    let dislikes = 0
+
+    let commentButton = document.querySelector('.commentButton')
+
+    let commentDiv = document.createElement('div')
+    let liComment = document.createElement('li')
+    let likeButton = document.createElement('button')
+    let dislikeButton = document.createElement('button')
+
+    likeButton.className = 'likeButton'
+    dislikeButton.className = 'dislikeButton'
+    commentDiv.className = 'commentDiv'
+
+    let divForm = document.querySelector('.inputDiv')
+
+    liComment.textContent = e.target.comment.value
+    likeButton.textContent = `Likes: ${likes}`
+    dislikeButton.textContent = `Dislikes: ${dislikes}`
+    commentButton.removeAttribute('disabled', 'disabled')
+
+    liComment.style.listStyle = 'none'
+    commentDiv.append(liComment, likeButton, dislikeButton)
+    aboutDiv.append(commentDiv)
+
+    likeButton.addEventListener('click', () => {
+        likeButton.textContent = `Likes: ${likes++}`
+    })
+
+    dislikeButton.addEventListener('click', () => {
+        dislikeButton.textContent = `Dislikes: ${dislikes++}`
+    })
+
+    divForm.remove()
+    patchComment(currentCity, liComment.textContent)
+    commentId += 1
 }
 
 function renderComments(city) {
@@ -248,10 +269,11 @@ function postCity(city, id) {
         body: JSON.stringify({
             id: id,
             name: city,
+            comment: []
         })
     })
     .then(res => res.json())
-    .then(console.log)
+    .then(json => console.log(currentCity = json))
 }
 
 function patchComment(city, comment) {
@@ -260,9 +282,17 @@ function patchComment(city, comment) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-
-        })
+        body: JSON.stringify(
+            {
+            comment: [{
+                id: commentId,
+                "op": "add", 
+            "path": "/content", 
+            "value": comment,
+                cityId: city.id
+            }]
+        }
+        )
     })
     .then(res => res.json())
     .then(json => json)
@@ -315,6 +345,7 @@ initialForm()
 //Check function
 let id = 0
 
+
 function fetchCheck(city, id) {
     fetch(`http://localhost:3000/city/`)
     .then(res => res.json())
@@ -326,3 +357,4 @@ function fetchCheck(city, id) {
         }
     })
 }
+
