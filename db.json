@@ -2,15 +2,54 @@
   "city": [
     {
       "id": 1,
-      "name": "Las Vegas"
+      "name": "San Francisco",
+      "comments": [
+        {
+          "id": 1,
+          "content": "What a beautiful day!",
+          "likes": 0,
+          "dislikes": 0
+        }
+      ]
     },
     {
       "id": 2,
-      "name": "Tucson"
+      "name": "Tucson",
+      "comments": [
+        {
+          "id": 1,
+          "content": "It is a nice day!",
+          "likes": 0,
+          "dislikes": 0
+        }
+      ]
     },
     {
       "id": 3,
-      "name": "Phoenix"
+      "name": "New York"
+    },
+    {
+      "id": 4,
+      "name": "Las Vegas",
+      "comments": [
+        {
+          "id": 1,
+          "content": "It's a sunny day!",
+          "likes": 0,
+          "dislikes": 0
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "phoenix",
+      "comment": [
+        {
+          "id": 3,
+          "content": "very cute",
+          "cityId": 5
+        }
+      ]
     }
   ]
 }
