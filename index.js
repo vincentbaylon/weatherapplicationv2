@@ -32,7 +32,7 @@ function renderWeather(city) {
     let newTemp = (fTemperature * 9/5) + 32
     let mWind = (city.wind).split(' ')[0]
     let wind = mWind / 1.69
-    console.log(wind.toFixed(2))
+    //console.log(wind.toFixed(2))
     //let wind = mWind / partFloat.(kmToMi)
 
     let buttonContainer = document.createElement('div')
@@ -149,7 +149,7 @@ function renderWeather(city) {
 }
 
 function renderComments(city) {
-    console.log(city)
+    //console.log(city)
     let likes = 0
     let dislikes = 0
 
@@ -164,7 +164,7 @@ function renderComments(city) {
     dislikeButton.className = 'dislikeButton'
     commentDiv.className = 'commentDiv'
 
-    liComment.textContent = city.comments[0].content
+    // liComment.textContent = city.comments[0].content
     likeButton.textContent = `Likes: ${likes}`
     dislikeButton.textContent = `Dislikes: ${dislikes}`
     commentButton.removeAttribute('disabled', 'disabled')
@@ -238,22 +238,21 @@ document.querySelector('#contact').addEventListener('click', () => {
 })
 
 // Patch
-function postCity(city) {
-    let id = 0
+
+function postCity(city, id) {
     fetch('http://localhost:3000/city/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-
+            id: id,
+            name: city,
         })
     })
     .then(res => res.json())
     .then(console.log)
 }
-
-patchCity()
 
 function patchComment(city, comment) {
     fetch(`http://localhost:3000/city/${city.id}`, {
@@ -270,6 +269,7 @@ function patchComment(city, comment) {
 }
 
 // Initial Render
+
 function initialForm() {
     let div = document.querySelector('.searchDiv')
 
@@ -292,7 +292,7 @@ function initialForm() {
 
     inputForm.addEventListener('submit', (e) => {
         e.preventDefault()
-
+        
         aboutDiv.innerHTML = ''
         let hR = document.createElement('hr')
         let hRTwo = document.createElement('hr')
@@ -305,9 +305,24 @@ function initialForm() {
         let city = e.target.search.value
         
         fetchSingleCity(city)
-        patchCity(city)
+        
+        fetchCheck(city, id)
     })
 }
 
 initialForm()
 
+//Check function
+let id = 0
+
+function fetchCheck(city, id) {
+    fetch(`http://localhost:3000/city/`)
+    .then(res => res.json())
+    .then(json => { 
+        let cityMatch = json.find(eachCity => eachCity.name === city)
+        if (cityMatch === undefined) {
+         id+=
+         postCity(city, id)
+        }
+    })
+}
