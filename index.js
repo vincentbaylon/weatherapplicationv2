@@ -15,6 +15,7 @@ function fetchSingleCity(city) {
     .then(json => {
         renderWeather(json)
         fetchComments(originalCityStr)
+        
     })
 }
 
@@ -23,7 +24,14 @@ function fetchComments(city) {
     .then(res => res.json())
     .then(json => { 
         let cityMatch = json.find(eachCity => eachCity.name === city)
+        
+        if (json.comments === undefined){
+            
+        }
+        else {
+            console.log(json.comments)
         renderComments(cityMatch)
+        }
     })
 }
 
@@ -171,6 +179,13 @@ function submitComment(city, e) {
 
 function renderComments(city) {
     //console.log(city)
+
+    // if(city.comments === []) {
+    //     console.log('Hi')
+    // } else {
+
+    
+    // console.log(city.comments)
     let likes = 0
     let dislikes = 0
 
@@ -185,7 +200,7 @@ function renderComments(city) {
     dislikeButton.className = 'dislikeButton'
     commentDiv.className = 'commentDiv'
 
-    // liComment.textContent = city.comments[0].content
+    liComment.textContent = city.comments[0].content
     likeButton.textContent = `Likes: ${likes}`
     dislikeButton.textContent = `Dislikes: ${dislikes}`
     commentButton.removeAttribute('disabled', 'disabled')
@@ -202,6 +217,7 @@ function renderComments(city) {
         dislikeButton.textContent = `Dislikes: ${dislikes++}`
     })
 }
+//}
 
 // Helper Function
 
@@ -269,7 +285,7 @@ function postCity(city, id) {
         body: JSON.stringify({
             id: id,
             name: city,
-            comment: []
+            comments: []
         })
     })
     .then(res => res.json())
@@ -284,13 +300,12 @@ function patchComment(city, comment) {
         },
         body: JSON.stringify(
             {
-            comment: [{
+            comments: [{
                 id: commentId,
-                "op": "add", 
-            "path": "/content", 
-            "value": comment,
+                content: comment,
                 cityId: city.id
             }]
+
         }
         )
     })
