@@ -1,6 +1,7 @@
 // Const
 const aboutDiv = document.querySelector('#about')
 let currentCity = ''
+let currentCityArray = []
 
 // Fetch
 function fetchSingleCity(city) {
@@ -25,12 +26,68 @@ function fetchComments(city) {
     .then(json => { 
         let cityMatch = json.find(eachCity => eachCity.name === city)
         
-        if (json.comments === undefined){
+        if (cityMatch.comments === undefined){
             
+        } else {
+            cityMatch.comments.forEach(renderComments)
+            currentCityArray = cityMatch.comments
         }
-        else {
-            console.log(json.comments)
-        renderComments(cityMatch)
+    })
+}
+
+// Patch
+function patchCommentArray(city) {
+    fetch(`http://localhost:3000/city/${city.id}`)
+    .then(res => res.json())
+    .then(json => json.comments)
+}
+
+function postCity(city, id) {
+    fetch('http://localhost:3000/city/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: id,
+            name: city,
+            comments: []
+        })
+    })
+    .then(res => res.json())
+    .then(json => currentCity = json)
+}
+
+function patchComment(city, commentArray) {
+    fetch(`http://localhost:3000/city/${city.id}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(
+            {
+            comments: commentArray
+
+        }
+        )
+    })
+    .then(res => res.json())
+    .then(json => json)
+}
+
+//Check function
+let id = 0
+
+function fetchCheck(city, id) {
+    fetch(`http://localhost:3000/city/`)
+    .then(res => res.json())
+    .then(json => { 
+        let cityMatch = json.find(eachCity => eachCity.name === city)
+        if (cityMatch === undefined) {
+         id+=
+         postCity(city, id)
+        } else {
+            currentCity = cityMatch
         }
     })
 }
@@ -131,14 +188,14 @@ function clickCommentButton(city) {
     inputForm.addEventListener('submit', (e) => {
         e.preventDefault()
 
-        submitComment(city, e)
+        submitComment(e)
     })
 }
 
 // Function for submitting comments
 let commentId = 0
 
-function submitComment(city, e) {
+function submitComment(e) {
     let likes = 0
     let dislikes = 0
 
@@ -173,7 +230,18 @@ function submitComment(city, e) {
     })
 
     divForm.remove()
-    patchComment(currentCity, liComment.textContent)
+
+    let newObject = {
+        'id': commentId,
+        'content': liComment.textContent,
+        'cityId': currentCity.id
+    }
+    
+    currentCityArray.push(newObject)
+    console.log(currentCityArray)
+    
+    patchComment(currentCity, currentCityArray)
+
     commentId += 1
 }
 
@@ -200,7 +268,7 @@ function renderComments(city) {
     dislikeButton.className = 'dislikeButton'
     commentDiv.className = 'commentDiv'
 
-    liComment.textContent = city.comments[0].content
+    liComment.textContent = city.content
     likeButton.textContent = `Likes: ${likes}`
     dislikeButton.textContent = `Dislikes: ${dislikes}`
     commentButton.removeAttribute('disabled', 'disabled')
@@ -274,44 +342,7 @@ document.querySelector('#contact').addEventListener('click', () => {
     aboutDiv.append(hTwo, hR, hRTwo, pContent)
 })
 
-// Patch
 
-function postCity(city, id) {
-    fetch('http://localhost:3000/city/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            id: id,
-            name: city,
-            comments: []
-        })
-    })
-    .then(res => res.json())
-    .then(json => console.log(currentCity = json))
-}
-
-function patchComment(city, comment) {
-    fetch(`http://localhost:3000/city/${city.id}`, {
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(
-            {
-            comments: [{
-                id: commentId,
-                content: comment,
-                cityId: city.id
-            }]
-
-        }
-        )
-    })
-    .then(res => res.json())
-    .then(json => json)
-}
 
 // Initial Render
 
@@ -357,19 +388,5 @@ function initialForm() {
 
 initialForm()
 
-//Check function
-let id = 0
 
-
-function fetchCheck(city, id) {
-    fetch(`http://localhost:3000/city/`)
-    .then(res => res.json())
-    .then(json => { 
-        let cityMatch = json.find(eachCity => eachCity.name === city)
-        if (cityMatch === undefined) {
-         id+=
-         postCity(city, id)
-        }
-    })
-}
 

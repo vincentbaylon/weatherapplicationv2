@@ -2,28 +2,33 @@
   "city": [
     {
       "id": 1,
-      "name": "Las Vegas",
-      "comments": []
-    },
-    {
-      "id": 2,
-      "name": "Tokyo",
-      "comments": [
-        {
-          "id": 1,
-          "content": "I love you, Aaron and Vince.",
-          "cityId": 2
-        }
-      ]
-    },
-    {
-      "id": 3,
       "name": "Tucson",
       "comments": [
         {
           "id": 0,
-          "content": "Sup",
-          "cityId": 3
+          "content": "It's very hot!",
+          "cityId": 1
+        },
+        {
+          "id": 1,
+          "content": "It sucks out here!",
+          "cityId": 1
+        },
+        {
+          "id": 2,
+          "content": "You guys are lying!",
+          "cityId": 1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "miami",
+      "comments": [
+        {
+          "id": 3,
+          "content": "Sup Miami!",
+          "cityId": 2
         }
       ]
     }
