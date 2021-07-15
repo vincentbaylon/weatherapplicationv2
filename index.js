@@ -322,7 +322,8 @@ document.querySelector('#resources').addEventListener('click', () => {
 
     hTwo.style.color = '#F1F1F1'
     hTwo.textContent = 'Resources'
-    pContent.textContent = 'Dead Ass'
+    pContent.innerHTML =  "<p style='color: rgb(241, 241, 241)'>API: <a style='color: rgb(251, 139, 36)' href='https://github.com/robertoduessmann/weather-api'>Github</a></p><p style='color: rgb(241, 241, 241)'>Icons used: <a style='color: rgb(251, 139, 36)' href='https://icons8.com/icons/set/weather'>Icons8</a></p><p style='color: rgb(241, 241, 241)'>Logo: <a style='color: rgb(251, 139, 36)' href='https://canva.com/'> Canva </a>"
+
 
     aboutDiv.append(hTwo, hR, hRTwo, pContent)
 })
@@ -337,10 +338,25 @@ document.querySelector('#contact').addEventListener('click', () => {
 
     hTwo.style.color = '#F1F1F1'
     hTwo.textContent = 'Contact'
-    pContent.textContent = 'Dead Ass'
+    pContent.innerHTML = "<p style='color: rgb(241, 241, 241)'>Trevor's Repos: <a style='color: rgb(251, 139, 36)' href='https://github.com/tzylks'>Github</a><p style='color: rgb(241, 241, 241)'>Vince's Repos: <a style='color: rgb(251, 139, 36)' href='https://github.com/vincentbaylon'>Github</a>" 
+    aboutDiv.append(hTwo, hR, hRTwo, pContent)
+})
+
+document.querySelector('#homePage').addEventListener('click', () => {
+    let hR = document.createElement('hr')
+    let hRTwo = document.createElement('hr')
+    let hTwo = document.createElement('h2')
+    let pContent = document.createElement('p')
+
+    aboutDiv.innerHTML = ''
+
+    hTwo.style.color = '#F1F1F1'
+    hTwo.textContent = 'Current Weather in Your Area'
+    
 
     aboutDiv.append(hTwo, hR, hRTwo, pContent)
 })
+
 
 
 
@@ -387,7 +403,3 @@ function initialForm() {
 }
 
 initialForm()
-
-
-
-console.log('pride')
