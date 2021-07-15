@@ -195,6 +195,7 @@ function submitComment(e) {
     let commentContainer = document.querySelector('.commentContainer')
 
     let commentDiv = document.createElement('div')
+    let buttonDiv = document.createElement('div')
     let liComment = document.createElement('li')
     let likeButton = document.createElement('button')
     let dislikeButton = document.createElement('button')
@@ -202,6 +203,7 @@ function submitComment(e) {
     likeButton.className = 'likeButton'
     dislikeButton.className = 'dislikeButton'
     commentDiv.className = 'commentDiv'
+    buttonDiv.className = 'buttonDiv'
 
     let divForm = document.querySelector('.inputDiv')
 
@@ -214,17 +216,17 @@ function submitComment(e) {
 
     liComment.style.listStyle = 'none'
     commentDiv.append(liComment)
-    commentContainer.prepend(commentDiv, likeButton, dislikeButton)
+    buttonDiv.append(likeButton, dislikeButton)
+    commentContainer.prepend(commentDiv, buttonDiv)
 
     likeButton.addEventListener('click', () => {
         likeButton.style.backgroundImage = ""
-        likeButton.textContent = `+ ${likes++}`
-        likeButton.style.marginBottom = '7px'
+        likeButton.textContent = `+ ${likes+=1}`
     })
 
     dislikeButton.addEventListener('click', () => {
         dislikeButton.style.backgroundImage = ""
-        dislikeButton.textContent = `- ${dislikes++}`
+        dislikeButton.textContent = `- ${dislikes+=1}`
     })
 
     divForm.remove()
@@ -253,10 +255,12 @@ function renderComments(city) {
     let liComment = document.createElement('li')
     let likeButton = document.createElement('button')
     let dislikeButton = document.createElement('button')
+    let buttonDiv = document.createElement('div')
 
     likeButton.className = 'likeButton'
     dislikeButton.className = 'dislikeButton'
     commentDiv.className = 'commentDiv'
+    buttonDiv.className = 'buttonDiv'
 
     liComment.textContent = city.content
     likeButton.style.backgroundImage = "url('images/thumbsup.png')"
@@ -267,17 +271,17 @@ function renderComments(city) {
 
     liComment.style.listStyle = 'none'
     commentDiv.append(liComment)
-    commentContainer.prepend(commentDiv, likeButton, dislikeButton)
+    buttonDiv.append(likeButton, dislikeButton)
+    commentContainer.prepend(commentDiv, buttonDiv)
 
     likeButton.addEventListener('click', () => {
         likeButton.style.backgroundImage = ""
-        likeButton.textContent = `+ ${likes++}`
-        likeButton.style.marginBottom = '7px'
+        likeButton.textContent = `+ ${likes+=1}`
     })
 
     dislikeButton.addEventListener('click', () => {
         dislikeButton.style.backgroundImage = ""
-        dislikeButton.textContent = `- ${dislikes++}`
+        dislikeButton.textContent = `- ${dislikes+=1}`
     })
 }
 
