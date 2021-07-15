@@ -258,15 +258,13 @@ function renderComments(city) {
     let commentContainer = document.querySelector('.commentContainer')
     let commentButton = document.querySelector('.commentButton')
 
-    // let timeDiv = document.createElement('div')
-    // let commentDiv = document.createElement('div')
-    // let liComment = document.createElement('li')
-    // let likeButton = document.createElement('button')
-    // let dislikeButton = document.createElement('button')
-    // let buttonDiv = document.createElement('div')
-    // let liTime = document.createElement('li')
-
-    let elementArr = createElements()
+    let timeDiv = document.createElement('div')
+    let commentDiv = document.createElement('div')
+    let liComment = document.createElement('li')
+    let likeButton = document.createElement('button')
+    let dislikeButton = document.createElement('button')
+    let buttonDiv = document.createElement('div')
+    let liTime = document.createElement('li')
 
     likeButton.className = 'likeButton'
     dislikeButton.className = 'dislikeButton'
@@ -274,9 +272,7 @@ function renderComments(city) {
     buttonDiv.className = 'buttonDiv'
     timeDiv.className = 'timeDiv'
 
-    // liComment.textContent = city.content
-    elementArr[2].textContent = city.content
-    console.log(elementArr[2].textContent)
+    liComment.textContent = city.content
     liTime.textContent = city.time
     likeButton.style.backgroundImage = "url('images/thumbsup.png')"
     likeButton.style.backgroundSize = '95%'
@@ -303,23 +299,7 @@ function renderComments(city) {
 }
 
 // Helper Function
-function createElements() {
-    let timeDiv = document.createElement('div')
-    let commentDiv = document.createElement('div')
-    let liComment = document.createElement('li')
-    let likeButton = document.createElement('button')
-    let dislikeButton = document.createElement('button')
-    let buttonDiv = document.createElement('div')
-    let liTime = document.createElement('li')
 
-    likeButton.className = 'likeButton'
-    dislikeButton.className = 'dislikeButton'
-    commentDiv.className = 'commentDiv'
-    buttonDiv.className = 'buttonDiv'
-    timeDiv.className = 'timeDiv'
-
-    return [timeDiv, commentDiv, liComment, likeButton, dislikeButton, buttonDiv, liTime]
-}
 
 // Event Listener
 document.querySelector('#aboutThisApp').addEventListener('click', () => {
