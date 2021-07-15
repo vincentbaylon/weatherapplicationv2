@@ -42,14 +42,13 @@ function patchCommentArray(city) {
     .then(json => json.comments)
 }
 
-function postCity(city, id) {
+function postCity(city) {
     fetch('http://localhost:3000/city/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            id: id,
             name: city,
             comments: []
         })
@@ -64,28 +63,22 @@ function patchComment(city, commentArray) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(
-            {
+        body: JSON.stringify({
             comments: commentArray
-
-        }
-        )
+        })
     })
     .then(res => res.json())
     .then(json => json)
 }
 
-//Check function
-let id = 0
-
-function fetchCheck(city, id) {
+// Check function
+function fetchCheck(city) {
     fetch(`http://localhost:3000/city/`)
     .then(res => res.json())
     .then(json => { 
         let cityMatch = json.find(eachCity => eachCity.name === city)
         if (cityMatch === undefined) {
-         id+=
-         postCity(city, id)
+         postCity(city)
         } else {
             currentCity = cityMatch
         }
@@ -98,8 +91,6 @@ function renderWeather(city) {
     let newTemp = (fTemperature * 9/5) + 32
     let mWind = (city.wind).split(' ')[0]
     let wind = mWind / 1.69
-    //console.log(wind.toFixed(2))
-    //let wind = mWind / partFloat.(kmToMi)
 
     let buttonContainer = document.createElement('div')
     let weatherContainer = document.createElement('div')
@@ -193,8 +184,6 @@ function clickCommentButton(city) {
 }
 
 // Function for submitting comments
-let commentId = 0
-
 function submitComment(e) {
     let likes = 0
     let dislikes = 0
@@ -231,29 +220,20 @@ function submitComment(e) {
 
     divForm.remove()
 
+    let idNumber = currentCityArray.length
+
     let newObject = {
-        'id': commentId,
+        'id': idNumber+=1,
         'content': liComment.textContent,
         'cityId': currentCity.id
     }
     
     currentCityArray.push(newObject)
-    console.log(currentCityArray)
     
     patchComment(currentCity, currentCityArray)
-
-    commentId += 1
 }
 
 function renderComments(city) {
-    //console.log(city)
-
-    // if(city.comments === []) {
-    //     console.log('Hi')
-    // } else {
-
-    
-    // console.log(city.comments)
     let likes = 0
     let dislikes = 0
 
@@ -285,7 +265,6 @@ function renderComments(city) {
         dislikeButton.textContent = `Dislikes: ${dislikes++}`
     })
 }
-//}
 
 // Helper Function
 
@@ -398,7 +377,7 @@ function initialForm() {
         
         fetchSingleCity(city)
         
-        fetchCheck(city, id)
+        fetchCheck(city)
     })
 }
 
