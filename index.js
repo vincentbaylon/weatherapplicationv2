@@ -160,8 +160,8 @@ function renderWeather(city) {
 
 // Function for clicking comment button
 function clickCommentButton(city) {
-    let commentButton = document.querySelector('.commentButton')
     let buttonContainer = document.querySelector('.buttonContainer')
+    let commentButton = document.querySelector('.commentButton')
 
     let inputForm = document.createElement('form')
     let divForm = document.createElement('div')
@@ -191,8 +191,8 @@ function submitComment(e) {
     let likes = 0
     let dislikes = 0
 
-    let commentButton = document.querySelector('.commentButton')
     let commentContainer = document.querySelector('.commentContainer')
+    let commentButton = document.querySelector('.commentButton')
 
     let timeDiv = document.createElement('div')
     let commentDiv = document.createElement('div')
@@ -255,16 +255,18 @@ function renderComments(city) {
     let likes = 0
     let dislikes = 0
 
-    let commentButton = document.querySelector('.commentButton')
     let commentContainer = document.querySelector('.commentContainer')
+    let commentButton = document.querySelector('.commentButton')
 
-    let timeDiv = document.createElement('div')
-    let commentDiv = document.createElement('div')
-    let liComment = document.createElement('li')
-    let likeButton = document.createElement('button')
-    let dislikeButton = document.createElement('button')
-    let buttonDiv = document.createElement('div')
-    let liTime = document.createElement('li')
+    // let timeDiv = document.createElement('div')
+    // let commentDiv = document.createElement('div')
+    // let liComment = document.createElement('li')
+    // let likeButton = document.createElement('button')
+    // let dislikeButton = document.createElement('button')
+    // let buttonDiv = document.createElement('div')
+    // let liTime = document.createElement('li')
+
+    let elementArr = createElements()
 
     likeButton.className = 'likeButton'
     dislikeButton.className = 'dislikeButton'
@@ -272,7 +274,9 @@ function renderComments(city) {
     buttonDiv.className = 'buttonDiv'
     timeDiv.className = 'timeDiv'
 
-    liComment.textContent = city.content
+    // liComment.textContent = city.content
+    elementArr[2].textContent = city.content
+    console.log(elementArr[2].textContent)
     liTime.textContent = city.time
     likeButton.style.backgroundImage = "url('images/thumbsup.png')"
     likeButton.style.backgroundSize = '95%'
@@ -299,7 +303,23 @@ function renderComments(city) {
 }
 
 // Helper Function
+function createElements() {
+    let timeDiv = document.createElement('div')
+    let commentDiv = document.createElement('div')
+    let liComment = document.createElement('li')
+    let likeButton = document.createElement('button')
+    let dislikeButton = document.createElement('button')
+    let buttonDiv = document.createElement('div')
+    let liTime = document.createElement('li')
 
+    likeButton.className = 'likeButton'
+    dislikeButton.className = 'dislikeButton'
+    commentDiv.className = 'commentDiv'
+    buttonDiv.className = 'buttonDiv'
+    timeDiv.className = 'timeDiv'
+
+    return [timeDiv, commentDiv, liComment, likeButton, dislikeButton, buttonDiv, liTime]
+}
 
 // Event Listener
 document.querySelector('#aboutThisApp').addEventListener('click', () => {
@@ -312,7 +332,6 @@ document.querySelector('#aboutThisApp').addEventListener('click', () => {
 
     aboutDiv.innerHTML = ''
     pCreators.style.color = '#fb8b24'
-    pContent.style.color = '#F1F1F1'
     pContent.style.color = '#F1F1F1'
     hTwo.style.color = '#F1F1F1'
     hTwo.textContent = 'About This App'

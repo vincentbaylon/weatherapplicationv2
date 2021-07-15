@@ -2,7 +2,14 @@
   "city": [
     {
       "name": "Las Vegas",
-      "comments": [],
+      "comments": [
+        {
+          "id": 1,
+          "content": "It's very hot!",
+          "cityId": 1,
+          "time": "7/15/2021, 4:06:49 PM"
+        }
+      ],
       "id": 1
     }
   ]
