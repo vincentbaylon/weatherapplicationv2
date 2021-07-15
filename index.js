@@ -92,12 +92,14 @@ function renderWeather(city) {
     let mWind = (city.wind).split(' ')[0]
     let wind = mWind / 1.69
 
+    let commentContainer = document.createElement('div')
     let buttonContainer = document.createElement('div')
     let weatherContainer = document.createElement('div')
     let liDescription = document.createElement('li')
     let liTemperature = document.createElement('li')
     let liWind = document.createElement('li')
     let commentButton = document.createElement('button')
+    let hr = document.createElement('hr')
     
     let descriptionSpan = document.createElement('span')
     let temperatureSpan = document.createElement('span')
@@ -106,6 +108,7 @@ function renderWeather(city) {
     let temperatureImage = document.createElement('img')
     let windImage = document.createElement('img')
 
+    commentContainer.className = 'commentContainer'
     buttonContainer.className = 'buttonContainer'
     weatherContainer.className = 'weatherContainer'
     liDescription.style.listStyle = 'none'
@@ -115,7 +118,6 @@ function renderWeather(city) {
     liTemperature.style.textAlign = 'left'
     liWind.style.textAlign = 'left'
     commentButton.className = 'commentButton'
-
     
     const imageSelection = (city) => {
         if (city.description.includes('Sun') || (city.description.includes('Cle'))) {
@@ -149,7 +151,7 @@ function renderWeather(city) {
     windSpan.append(windImage, liWind)
     buttonContainer.append(commentButton)
     weatherContainer.append(descriptionSpan, temperatureSpan, windSpan)
-    aboutDiv.append(weatherContainer, buttonContainer)
+    aboutDiv.append(weatherContainer, hr, buttonContainer, commentContainer)
 
     commentButton.addEventListener('click', () => {
         clickCommentButton(city)
@@ -159,6 +161,7 @@ function renderWeather(city) {
 // Function for clicking comment button
 function clickCommentButton(city) {
     let commentButton = document.querySelector('.commentButton')
+    let buttonContainer = document.querySelector('.buttonContainer')
 
     let inputForm = document.createElement('form')
     let divForm = document.createElement('div')
@@ -174,7 +177,7 @@ function clickCommentButton(city) {
 
     inputForm.append(commentInput, submitInput)
     divForm.append(inputForm)
-    aboutDiv.append(divForm)
+    buttonContainer.append(divForm)
 
     inputForm.addEventListener('submit', (e) => {
         e.preventDefault()
@@ -189,6 +192,7 @@ function submitComment(e) {
     let dislikes = 0
 
     let commentButton = document.querySelector('.commentButton')
+    let commentContainer = document.querySelector('.commentContainer')
 
     let commentDiv = document.createElement('div')
     let liComment = document.createElement('li')
@@ -202,20 +206,25 @@ function submitComment(e) {
     let divForm = document.querySelector('.inputDiv')
 
     liComment.textContent = e.target.comment.value
-    likeButton.textContent = `Likes: ${likes}`
-    dislikeButton.textContent = `Dislikes: ${dislikes}`
+    likeButton.style.backgroundImage = "url('images/thumbsup.png')"
+    likeButton.style.backgroundSize = '95%'
+    dislikeButton.style.backgroundImage = 'url(images/thumbsdown.png)'
+    dislikeButton.style.backgroundSize = '95%'
     commentButton.removeAttribute('disabled', 'disabled')
 
     liComment.style.listStyle = 'none'
-    commentDiv.append(liComment, likeButton, dislikeButton)
-    aboutDiv.append(commentDiv)
+    commentDiv.append(liComment)
+    commentContainer.prepend(commentDiv, likeButton, dislikeButton)
 
     likeButton.addEventListener('click', () => {
-        likeButton.textContent = `Likes: ${likes++}`
+        likeButton.style.backgroundImage = ""
+        likeButton.textContent = `+ ${likes++}`
+        likeButton.style.marginBottom = '7px'
     })
 
     dislikeButton.addEventListener('click', () => {
-        dislikeButton.textContent = `Dislikes: ${dislikes++}`
+        dislikeButton.style.backgroundImage = ""
+        dislikeButton.textContent = `- ${dislikes++}`
     })
 
     divForm.remove()
@@ -238,6 +247,7 @@ function renderComments(city) {
     let dislikes = 0
 
     let commentButton = document.querySelector('.commentButton')
+    let commentContainer = document.querySelector('.commentContainer')
 
     let commentDiv = document.createElement('div')
     let liComment = document.createElement('li')
@@ -249,20 +259,25 @@ function renderComments(city) {
     commentDiv.className = 'commentDiv'
 
     liComment.textContent = city.content
-    likeButton.textContent = `Likes: ${likes}`
-    dislikeButton.textContent = `Dislikes: ${dislikes}`
+    likeButton.style.backgroundImage = "url('images/thumbsup.png')"
+    likeButton.style.backgroundSize = '95%'
+    dislikeButton.style.backgroundImage = 'url(images/thumbsdown.png)'
+    dislikeButton.style.backgroundSize = '95%'
     commentButton.removeAttribute('disabled', 'disabled')
 
     liComment.style.listStyle = 'none'
-    commentDiv.append(liComment, likeButton, dislikeButton)
-    aboutDiv.append(commentDiv)
+    commentDiv.append(liComment)
+    commentContainer.prepend(commentDiv, likeButton, dislikeButton)
 
     likeButton.addEventListener('click', () => {
-        likeButton.textContent = `Likes: ${likes++}`
+        likeButton.style.backgroundImage = ""
+        likeButton.textContent = `+ ${likes++}`
+        likeButton.style.marginBottom = '7px'
     })
 
     dislikeButton.addEventListener('click', () => {
-        dislikeButton.textContent = `Dislikes: ${dislikes++}`
+        dislikeButton.style.backgroundImage = ""
+        dislikeButton.textContent = `- ${dislikes++}`
     })
 }
 
