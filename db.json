@@ -1,6 +1,25 @@
 {
   "city": [
-    
-
+    {
+      "name": "Tucson",
+      "comments": [],
+      "id": 1
+    },
+    {
+      "name": "Phoenix",
+      "comments": [
+        {
+          "id": 1,
+          "content": "Hello",
+          "cityId": 2
+        },
+        {
+          "id": 2,
+          "content": "Hi",
+          "cityId": 2
+        }
+      ],
+      "id": 2
+    }
   ]
 }
