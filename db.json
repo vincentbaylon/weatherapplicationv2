@@ -1,5 +1,25 @@
 {
   "city": [
-
+    {
+      "name": "Las Vegas",
+      "comments": [
+        {
+          "id": 1,
+          "content": "Cute!",
+          "cityId": 1
+        },
+        {
+          "id": 2,
+          "content": "It's very hot!",
+          "cityId": 1
+        }
+      ],
+      "id": 1
+    },
+    {
+      "name": "",
+      "comments": [],
+      "id": 2
+    }
   ]
 }

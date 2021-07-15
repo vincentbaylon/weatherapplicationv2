@@ -72,39 +72,71 @@ input[type=submit] {
   width: 150px;
 }
 
-.commentDiv {
+/* .commentDiv {
   background-color: white;
   border-radius: 10px;
   margin: 25px;
   height: 100px;
+  line-height: 3em;
+} */
+
+.commentDiv {
+	position: relative;
+	background: #ffffff;
+	border: 5px solid #fb8b24;
+  height: 100px;
+  margin: 25px;
+  word-wrap: break-word;
+}
+
+.commentDiv:after, .commentDiv:before {
+	left: 100%;
+	top: 50%;
+	border: solid transparent;
+	content: "";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.commentDiv:after {
+	border-color: rgba(255, 255, 255, 0);
+	border-left-color: #ffffff;
+	border-width: 30px;
+	margin-top: -30px;
+}
+.commentDiv:before {
+	border-color: rgba(251, 139, 36, 0);
+	border-left-color: #fb8b24;
+	border-width: 37px;
+	margin-top: -37px;
 }
 
 .likeButton {
-  width: 50px;
+  width: 48px;
   background-color: #fb8b24;
   color: white;
-  /* padding: 14px 20px; */
+  margin-bottom: 7px;
   margin-right: 20px;
   border: none;
-  border-radius: 4px;
+  /* border-radius: 4px; */
   cursor: pointer;
-  height: 50px;
+  height: 48px;
   font-size: 20px;
   /* position: absolute; */
 }
 
 .dislikeButton {
-  width: 50px;
+  width: 48px;
   background-color: #fb8b24;
   color: white;
-  /* padding: 14px 20px; */
   margin-right: 20px;
   border: none;
-  border-radius: 4px;
+  /* border-radius: 4px; */
   cursor: pointer;
-  height: 50px;
+  height: 48px;
   font-size: 20px;
-  position: absolute;
 }
 
 .likeButton img {
@@ -112,6 +144,28 @@ input[type=submit] {
   height: 30px;
   width: 30px;
   margin-right: 10px;
+}
+
+.commentContainer {
+  display: inline;
+}
+
+.commentDiv {
+  margin-left: 25px;
+  width: 78%;
+  float: left;
+  font-size: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonDiv {
+  float: right;
+  margin-top: 25px;
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .weatherContainer li {
