@@ -29,7 +29,10 @@ function fetchComments(city) {
         if (cityMatch.comments === undefined){
             
         } else {
-            cityMatch.comments.forEach(renderComments)
+            cityMatch.comments.forEach(eachComment => {
+                comments()
+                comments.renderComments(eachComment)
+            })
             currentCityArray = cityMatch.comments
         }
     })
@@ -182,124 +185,100 @@ function clickCommentButton(city) {
     inputForm.addEventListener('submit', (e) => {
         e.preventDefault()
 
-        submitComment(e)
+        comments()
+        comments.submitComment(e)
     })
 }
 
-// Function for submitting comments
-function submitComment(e) {
-    let likes = 0
-    let dislikes = 0
-
-    let commentContainer = document.querySelector('.commentContainer')
-    let commentButton = document.querySelector('.commentButton')
-
-    let timeDiv = document.createElement('div')
-    let commentDiv = document.createElement('div')
-    let buttonDiv = document.createElement('div')
-    let liComment = document.createElement('li')
-    let likeButton = document.createElement('button')
-    let dislikeButton = document.createElement('button')
-    let liTime = document.createElement('li')
-
-    likeButton.className = 'likeButton'
-    dislikeButton.className = 'dislikeButton'
-    commentDiv.className = 'commentDiv'
-    buttonDiv.className = 'buttonDiv'
-    timeDiv.className = 'timeDiv'
-
-    let divForm = document.querySelector('.inputDiv')
-    
-    liComment.textContent = e.target.comment.value
-    liTime.textContent = new Date(Date.now()).toLocaleString()
-    likeButton.style.backgroundImage = "url('images/thumbsup.png')"
-    likeButton.style.backgroundSize = '95%'
-    dislikeButton.style.backgroundImage = 'url(images/thumbsdown.png)'
-    dislikeButton.style.backgroundSize = '95%'
-    commentButton.removeAttribute('disabled', 'disabled')
-
-    liComment.style.listStyle = 'none'
-    liTime.style.listStyle = 'none'
-    timeDiv.append(liTime)
-    commentDiv.append(liComment, timeDiv)
-    buttonDiv.append(likeButton, dislikeButton)
-    commentContainer.prepend(commentDiv, buttonDiv)
-
-    likeButton.addEventListener('click', () => {
-        likeButton.style.backgroundImage = ""
-        likeButton.textContent = `+ ${likes+=1}`
-    })
-
-    dislikeButton.addEventListener('click', () => {
-        dislikeButton.style.backgroundImage = ""
-        dislikeButton.textContent = `- ${dislikes+=1}`
-    })
-
-    divForm.remove()
-
-    let idNumber = currentCityArray.length
-
-    let newObject = {
-        'id': idNumber+=1,
-        'content': liComment.textContent,
-        'cityId': currentCity.id,
-        'time': new Date(Date.now()).toLocaleString()
-    }
-    
-    currentCityArray.push(newObject)
-    
-    patchComment(currentCity, currentCityArray)
-}
-
-function renderComments(city) {
-    let likes = 0
-    let dislikes = 0
-
-    let commentContainer = document.querySelector('.commentContainer')
-    let commentButton = document.querySelector('.commentButton')
-
-    let timeDiv = document.createElement('div')
-    let commentDiv = document.createElement('div')
-    let liComment = document.createElement('li')
-    let likeButton = document.createElement('button')
-    let dislikeButton = document.createElement('button')
-    let buttonDiv = document.createElement('div')
-    let liTime = document.createElement('li')
-
-    likeButton.className = 'likeButton'
-    dislikeButton.className = 'dislikeButton'
-    commentDiv.className = 'commentDiv'
-    buttonDiv.className = 'buttonDiv'
-    timeDiv.className = 'timeDiv'
-
-    liComment.textContent = city.content
-    liTime.textContent = city.time
-    likeButton.style.backgroundImage = "url('images/thumbsup.png')"
-    likeButton.style.backgroundSize = '95%'
-    dislikeButton.style.backgroundImage = 'url(images/thumbsdown.png)'
-    dislikeButton.style.backgroundSize = '95%'
-    commentButton.removeAttribute('disabled', 'disabled')
-
-    liComment.style.listStyle = 'none'
-    liTime.style.listStyle = 'none'
-    timeDiv.append(liTime)
-    commentDiv.append(liComment, timeDiv)
-    buttonDiv.append(likeButton, dislikeButton)
-    commentContainer.prepend(commentDiv, buttonDiv)
-
-    likeButton.addEventListener('click', () => {
-        likeButton.style.backgroundImage = ""
-        likeButton.textContent = `+ ${likes+=1}`
-    })
-
-    dislikeButton.addEventListener('click', () => {
-        dislikeButton.style.backgroundImage = ""
-        dislikeButton.textContent = `- ${dislikes+=1}`
-    })
-}
 
 // Helper Function
+function comments() {
+    let likes = 0
+    let dislikes = 0
 
+    let commentContainer = document.querySelector('.commentContainer')
+    let commentButton = document.querySelector('.commentButton')
+
+    let timeDiv = document.createElement('div')
+    let commentDiv = document.createElement('div')
+    let buttonDiv = document.createElement('div')
+    let liComment = document.createElement('li')
+    let likeButton = document.createElement('button')
+    let dislikeButton = document.createElement('button')
+    let liTime = document.createElement('li')
+
+    likeButton.className = 'likeButton'
+    dislikeButton.className = 'dislikeButton'
+    commentDiv.className = 'commentDiv'
+    buttonDiv.className = 'buttonDiv'
+    timeDiv.className = 'timeDiv'
+
+    likeButton.style.backgroundImage = "url('images/thumbsup.png')"
+    likeButton.style.backgroundSize = '95%'
+    dislikeButton.style.backgroundImage = 'url(images/thumbsdown.png)'
+    dislikeButton.style.backgroundSize = '95%'
+    liComment.style.listStyle = 'none'
+    liTime.style.listStyle = 'none'
+
+    likeButton.addEventListener('click', () => {
+        likeButton.style.backgroundImage = ""
+        likeButton.textContent = `+ ${likes+=1}`
+    })
+
+    dislikeButton.addEventListener('click', () => {
+        dislikeButton.style.backgroundImage = ""
+        dislikeButton.textContent = `- ${dislikes+=1}`
+    })
+
+    function renderComments(city) {
+        liComment.textContent = city.content
+        liTime.textContent = city.time
+    
+        liComment.style.listStyle = 'none'
+        liTime.style.listStyle = 'none'
+
+        appends()
+    }
+
+    function submitComment(e) {
+        let divForm = document.querySelector('.inputDiv')
+        
+        liComment.textContent = e.target.comment.value
+        liTime.textContent = new Date(Date.now()).toLocaleString()
+    
+        liComment.style.listStyle = 'none'
+        liTime.style.listStyle = 'none'
+
+        commentButton.removeAttribute('disabled', 'disabled')
+
+        appends()
+    
+        divForm.remove()
+    
+        let idNumber = currentCityArray.length
+    
+        let newObject = {
+            'id': idNumber+=1,
+            'content': liComment.textContent,
+            'cityId': currentCity.id,
+            'time': new Date(Date.now()).toLocaleString()
+        }
+        
+        currentCityArray.push(newObject)
+        
+        patchComment(currentCity, currentCityArray)
+    }
+
+    function appends() {
+        timeDiv.append(liTime)
+        commentDiv.append(liComment, timeDiv)
+        buttonDiv.append(likeButton, dislikeButton)
+        commentContainer.prepend(commentDiv, buttonDiv)
+    }
+
+    comments.renderComments = renderComments
+    comments.submitComment = submitComment
+}
 
 // Event Listener
 document.querySelector('#aboutThisApp').addEventListener('click', () => {
