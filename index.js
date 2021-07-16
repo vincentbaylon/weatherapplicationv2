@@ -344,7 +344,7 @@ function initialForm() {
     let searchInput = document.createElement('input')
     let submitInput = document.createElement('input')
 
-    inputForm.className = 'searchBar'
+    inputForm.className = 'searchBar w3-animate-right'
     searchInput.className = 'searchCity'
     submitInput.id = 'searchButton'
     searchInput.setAttribute('type', 'text')

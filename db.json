@@ -14,6 +14,12 @@
           "content": "Hi",
           "cityId": 1,
           "time": "7/15/2021, 6:02:31 PM"
+        },
+        {
+          "id": 3,
+          "content": "Go fuck yourself",
+          "cityId": 1,
+          "time": "7/15/2021, 8:43:10 PM"
         }
       ],
       "id": 1
