@@ -2,7 +2,14 @@
   "city": [
     {
       "name": "Tucson",
-      "comments": [],
+      "comments": [
+        {
+          "id": 1,
+          "content": "Go fuck yourself",
+          "cityId": 1,
+          "time": "7/15/2021, 3:47:28 PM"
+        }
+      ],
       "id": 1
     },
     {
@@ -28,9 +35,27 @@
           "id": 1,
           "content": "Hello",
           "cityId": 3
+        },
+        {
+          "id": 2,
+          "content": "hi",
+          "cityId": 3,
+          "time": "7/15/2021, 5:21:59 PM"
         }
       ],
       "id": 3
+    },
+    {
+      "name": "Kansas City",
+      "comments": [
+        {
+          "id": 1,
+          "content": "",
+          "cityId": 4,
+          "time": "7/15/2021, 3:50:04 PM"
+        }
+      ],
+      "id": 4
     }
   ]
 }

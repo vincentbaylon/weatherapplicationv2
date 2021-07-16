@@ -16,6 +16,20 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 #main {margin-left: 120px}
 #about {font-size: 20px}
 
+#sideNav { 
+  transform: translateX(-100%); /* normal, hidden state */
+  transition: .75s ease-in-out;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#sidebarNav:hover #sideNav {
+  transform: translateX(0); /* when parent is hovered */
+  transition: .75s ease-in-out;
+  left: 0;
+}
+
 input[type=text], select {
   width: 100%;
   padding: 12px 20px;
@@ -71,7 +85,6 @@ input[type=submit] {
 #searchButton {
   width: 150px;
 }
-
 /* .commentDiv {
   background-color: white;
   border-radius: 10px;
@@ -82,7 +95,7 @@ input[type=submit] {
 
 .commentDiv {
 	position: relative;
-	background: #ffffff;
+	background: #ffefcc;
 	border: 5px solid #fb8b24;
   height: 100px;
   margin: 25px;
@@ -102,7 +115,7 @@ input[type=submit] {
 
 .commentDiv:after {
 	border-color: rgba(255, 255, 255, 0);
-	border-left-color: #ffffff;
+	border-left-color: #fb8b24;
 	border-width: 30px;
 	margin-top: -30px;
 }
@@ -158,6 +171,11 @@ input[type=submit] {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+}
+
+.timeDiv {
+  font-size: 20px;
 }
 
 .buttonDiv {
@@ -196,26 +214,29 @@ span {
 <body class="w3-black">
 
 <!-- Icon Bar (Sidebar - hidden on small screens) -->
-<nav class="w3-sidebar w3-animate-left w3-bar-block w3-small w3-hide-small w3-center">
-  <!-- Avatar image in top left corner -->
-  <img src="https://i.pinimg.com/736x/b3/3d/6b/b33d6b98e2b3f12c1c822999ccf01173.jpg" style="width:100%">
-  <a id='homePage' href="#" class="w3-bar-item w3-button w3-padding-large w3-black">
-    <i class="fa fa-home w3-xxlarge"></i>
-    <p>HOME</p>
-  </a>
-  <a id="aboutThisApp" href="#about" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-    <i class="fa fa-user w3-xxlarge"></i>
-    <p>ABOUT</p>
-  </a>
-  <a id="resources" href="#photos" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-    <i class="fa fa-eye w3-xxlarge"></i>
-    <p>RESOURCES</p>
-  </a>
-  <a id="contact" href="#contact" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-    <i class="fa fa-envelope w3-xxlarge"></i>
-    <p>CONTACT</p>
-  </a>
-</nav>
+<div class="w3-sidebar w3-black" id="sidebarNav">
+  <img class="navbarIcon" src="./images/navbaricon.png" style="width:50%">
+  <nav class="w3-sidebar w3-animate-left w3-bar-block w3-small w3-hide-small w3-center" id="sideNav">
+    <!-- Avatar image in top left corner -->
+    <img src="https://i.pinimg.com/736x/b3/3d/6b/b33d6b98e2b3f12c1c822999ccf01173.jpg" style="width:100%">
+    <a id='homePage' href="#" class="w3-bar-item w3-button w3-padding-large w3-black">
+      <i class="fa fa-home w3-xxlarge"></i>
+      <p>HOME</p>
+    </a>
+    <a id="aboutThisApp" href="#about" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+      <i class="fa fa-user w3-xxlarge"></i>
+      <p>ABOUT</p>
+    </a>
+    <a id="resources" href="#photos" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+      <i class="fa fa-eye w3-xxlarge"></i>
+      <p>RESOURCES</p>
+    </a>
+    <a id="contact" href="#contact" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+      <i class="fa fa-envelope w3-xxlarge"></i>
+      <p>CONTACT</p>
+    </a>
+  </nav>
+</div>
 
 <!-- Navbar on small screens (Hidden on medium and large screens) -->
 <div class="w3-top w3-hide-large w3-hide-medium" id="myNavbar">
@@ -241,9 +262,9 @@ span {
 
   <!-- About Section -->
   <div class="w3-content w3-animate-right w3-justify w3-text-grey w3-center" id="about">
-    <h2 class="w3-text-light-grey">Current Weather in Your Area</h2>
+    <!-- <h2 class="w3-text-light-grey">Current Weather in Your Area</h2>
     <hr style="text-align: center;" class="w3-opacity w3-center">
-    <hr style="text-align: center;" class="w3-opacity w3-center">
+    <hr style="text-align: center;" class="w3-opacity w3-center"> -->
   </div>
 
   
