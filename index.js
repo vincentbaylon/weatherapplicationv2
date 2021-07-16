@@ -160,8 +160,8 @@ function renderWeather(city) {
 
 // Function for clicking comment button
 function clickCommentButton(city) {
-    let commentButton = document.querySelector('.commentButton')
     let buttonContainer = document.querySelector('.buttonContainer')
+    let commentButton = document.querySelector('.commentButton')
 
     let inputForm = document.createElement('form')
     let divForm = document.createElement('div')
@@ -191,8 +191,8 @@ function submitComment(e) {
     let likes = 0
     let dislikes = 0
 
-    let commentButton = document.querySelector('.commentButton')
     let commentContainer = document.querySelector('.commentContainer')
+    let commentButton = document.querySelector('.commentButton')
 
     let timeDiv = document.createElement('div')
     let commentDiv = document.createElement('div')
@@ -255,8 +255,8 @@ function renderComments(city) {
     let likes = 0
     let dislikes = 0
 
-    let commentButton = document.querySelector('.commentButton')
     let commentContainer = document.querySelector('.commentContainer')
+    let commentButton = document.querySelector('.commentButton')
 
     let timeDiv = document.createElement('div')
     let commentDiv = document.createElement('div')
@@ -312,7 +312,6 @@ document.querySelector('#aboutThisApp').addEventListener('click', () => {
 
     aboutDiv.innerHTML = ''
     pCreators.style.color = '#fb8b24'
-    pContent.style.color = '#F1F1F1'
     pContent.style.color = '#F1F1F1'
     hTwo.style.color = '#F1F1F1'
     hTwo.textContent = 'About This App'
